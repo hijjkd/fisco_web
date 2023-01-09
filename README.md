@@ -91,7 +91,7 @@ result
 }
 ```
 
-计算result数组的大小即为当前群组内节点数量
+**计算result数组的大小即为当前群组内节点数量**
 
 ![image-20230109111418148](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20230109111418148.png)
 
@@ -123,7 +123,7 @@ result
 - `signatureList`: `string` - PBFT共识的签名列表
 - `stateRoot`: `string` - 状态根哈希
 - `timestamp`: `string` - 时间戳，单位毫秒
-- `transactions`: `array` - 交易列表，当`includeTransactions`为`false`时，显示交易的哈希。当`includeTransactions`为`true`时，显示交易详细信息（详细字段见[getTransactionByHash](https://fisco-bcos-documentation.readthedocs.io/zh_CN/latest/docs/api.html#gettransactionbyhash)）
+- `transactions`: `array` - 交易列表，当`includeTransactions`为`false`时，显示交易的哈希。**当`includeTransactions`为`true`时，显示交易详细信息**（详细字段见[getTransactionByHash](https://fisco-bcos-documentation.readthedocs.io/zh_CN/latest/docs/api.html#gettransactionbyhash)）
 - `transactionsRoot`: `string` - 区块内所有交易的merkle根
 
 ```json
@@ -184,7 +184,10 @@ params参数为true：
     "receiptsRoot": "0x69a04fa6073e4fc0947bac7ee6990e788d1e2c5ec0fe6c2436d0892e7f3c09d2",
     "sealer": "0x0",
     "sealerList": [
-      "4ca3a91a4937355dba6a2e5fe76141479a1fc44e9caa86750092dab64e0b8382f6b8476749c2d2de414350a54491620d38813d2a1442f524e36e3d9946109c4d"
+"11e1be251ca08bb44f36fdeedfaeca40894ff80dfd80084607a75509edeaf2a9c6fee914f1e9efda571611cf4575a1577957edfd2baa9386bd63eb034868625f",
+      "78a313b426c3de3267d72b53c044fa9fe70c2a27a00af7fea4a549a7d65210ed90512fc92b6194c14766366d434235c794289d66deff0796f15228e0e14a9191",
+      "95b7ff064f91de76598f90bc059bec1834f0d9eeb0d05e1086d49af1f9c2f321062d011ee8b0df7644bd54c4f9ca3d8515a3129bbb9d0df8287c9fa69552887e",
+      "b8acb51b9fe84f88d670646be36f31c52e67544ce56faf3dc8ea4cf1b0ebff0864c6b218fdcd9cf9891ebd414a995847911bd26a770f429300085f37e1131f36"
     ],
     "signatureList": [
       {
@@ -224,7 +227,11 @@ params参数为true：
 }
 ```
 
-首页显示最新六个区块的部分信息(区块编号，时间戳，出块者)
+首页显示最新六个区块的部分信息(区块编号`number`，时间戳`timestamp`，出块者hash)
+
+时间戳有相应的计算js代码；
+
+出块者hash的获取需要结合`sealer`字段和`sealerList`字段：`sealerList`指出了当前全部节点的hash，且是固定顺序，`sealer`以十六进制字符串格式指出当前出块者是`sealerList`的哪一个(0x0指的是`sealerList`数组的第一个，0x1指的是第二个)
 
 ![image-20230109114821066](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20230109114821066.png)
 
