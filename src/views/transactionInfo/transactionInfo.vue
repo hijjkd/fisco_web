@@ -30,7 +30,9 @@
                 </div>
             </div>
             <div class="search-table">
-                <el-table :data="transactionList" class="block-table-content" :row-key="getRowKeys" :expand-row-keys="expands" v-loading="loading" @row-click="clickTable" ref="refTable">
+                <el-table :data="transactionList" class="block-table-content" :row-key="getRowKeys"
+                    :expand-row-keys="expands" v-loading="loading" @row-click="clickTable" ref="refTable"
+                    @expand-change="expandSelect">
                     <el-table-column type="expand" align="center">
                         <template slot-scope="scope">
 
@@ -96,7 +98,7 @@ export default {
             loading: false,
             numberFormat: numberFormat,
             getRowKeys: function (row) {
-                return row.transHash;
+                return row.hash;
             }
         };
     },
@@ -122,7 +124,19 @@ export default {
 
     methods: {
 
-     //
+     // 折叠面板每次只能展开一行
+      expandSelect(row, expandedRows) {
+        var that = this
+        if (expandedRows.length) {
+          that.expands = []
+          if (row) {
+            that.expands.push(row.hash)
+          }
+        } else {
+          that.expands = []
+        }
+
+      },
     }
 };
 </script>
