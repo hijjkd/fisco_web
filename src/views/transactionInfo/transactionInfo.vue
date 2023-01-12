@@ -19,12 +19,12 @@
         <div class="module-wrapper">
             <div class="search-part">
                 <div class="search-part-left-bg">
-                    <span>{{$t('text.total')}}</span>
+                    <!-- <span>{{$t('text.total')}}</span>
                     <span>{{numberFormat(total, 0, ".", ",")}}</span>
-                    <span>{{$t('text.tiao')}}</span>
+                    <span>{{$t('text.tiao')}}</span> -->
                 </div>
                 <div class="search-part-right">
-                    <el-input :placeholder="$t('inputText.transactionSearch')" v-model="searchKey.value" class="input-with-select" clearable @clear="clearText">
+                    <el-input :placeholder="$t('placeholder.globalSearch')" v-model="searchKey.value" class="input-with-select" clearable @clear="clearText">
                         <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                     </el-input>
                 </div>
@@ -49,7 +49,8 @@
                     </el-table-column>
                     <el-table-column prop="blockNumber" :label="$t('blockHeight')" width="260" align="center" :show-overflow-tooltip="true">
                         <template slot-scope="scope">
-                            <span>{{scope.row['blockNumber']}}</span>
+                            <!-- 使用过滤器处理数字 -->
+                            <span>{{scope.row['blockNumber']|blockNumber}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column prop="from" :label="$t('from')" width="280" :show-overflow-tooltip="true" align="center">
@@ -73,7 +74,7 @@
 import contentHead from "@/components/contentHead";
 import transactionDetail from "@/components/transactionDetail";
 import { queryHomeSearch,
-  BlockNumber, } from "@/util/api";
+  BlockNumber,BlockByNumber } from "@/util/api";
 import router from "@/router";
 import errcode from "@/util/errcode";
 import { numberFormat } from "@/util/util";
@@ -103,19 +104,25 @@ export default {
         };
     },
 
-  //   computed: {
-  //     transactionList(){
-  //       return this.$route.query.list.transactions.map(it=>({
-  //       ...it,
-  //       blockNumber:parseInt(it.blockNumber, 16)
-  //     }))
-  //     }
-  //  },
+
+    filters: {
+        blockNumber: (value) => {
+            return parseInt(value, 16);
+        },
+    },
+
+
+
+    computed: {
+    
+
+    
+      
+   },
     mounted: async function () {
       if(this.$route.query &&this.$route.query.list&& this.$route.query.list.transactions.length){
         this.transactionList = this.$route.query.list.transactions.map(it=>({
         ...it,
-        blockNumber:parseInt(it.blockNumber, 16)
       }))
       }
 
@@ -123,6 +130,30 @@ export default {
     },
 
     methods: {
+        // 搜索框清除键逻辑
+        clearText(){
+            this.transactionList = []
+        },
+
+        // 搜索按钮逻辑
+        search() {
+            let searchKey = this.searchKey.value
+            var arr = Number(searchKey).toString(16);
+            var sum = "0x" + arr;
+            var data = {
+                jsonrpc: "2.0",
+                method: "getBlockByNumber",
+                params: [1, sum, true],
+                id: 1,
+            };
+
+            // 网络请求搜索数据
+            BlockByNumber(data).then((res) => {
+                // TODO 校验搜索框输入逻辑
+                this.transactionList = []
+                this.transactionList=res.data.result.transactions
+            })
+        },
 
      // 折叠面板每次只能展开一行
       expandSelect(row, expandedRows) {
@@ -135,8 +166,9 @@ export default {
         } else {
           that.expands = []
         }
-
       },
+
+      
     }
 };
 </script>

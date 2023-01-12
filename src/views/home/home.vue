@@ -93,13 +93,13 @@
       <el-input
         :placeholder="$t('placeholder.globalSearch')"
         v-model.trim="keyword"
-        @keyup.enter.native="submit"
+        @keyup.enter.native="search"
       >
         <el-button
           slot="append"
           icon="el-icon-search"
           v-loading="searchLoading"
-          @click="submit"
+          @click="search"
         ></el-button>
       </el-input>
     </div>
@@ -233,16 +233,16 @@
                       >块高 {{ item.number }}</router-link
                     > -->
                     <div class="node-ip"  @click="link(item)">
-                      Block {{ item.number }}
+                      Block {{ item.number |blockNumber}}
                     </div>
 
                   </span>
-                  <span class="font-color-8798ad">{{ item.timestamp }}</span>
+                  <span class="font-color-8798ad">{{ item.timestamp |formateDate }}</span>
                 </div>
                 <div>
                   <div class="block-miner">
                     <span>Blocker</span>
-                    <p :title="`${item.transaction}`">{{ item.transaction }}</p>
+                    <p :title="`${item.sealer}`">{{ item | formateBlocker }}</p>
                   </div>
                   <!-- <div class="text-right">
                                         <span>{{item.transCount}}</span>
@@ -447,6 +447,32 @@ export default {
     };
   },
 
+  filters: {
+    // 格式化区块编号
+    blockNumber: (value) => {
+      return parseInt(value, 16);
+    },
+
+    // 格式化区块时间
+    formateDate: (value) => {
+      const time = Number(value);
+      var date = new Date(time);
+      var Y = date.getFullYear() + '-';
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+      var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+      var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+      var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
+
+      return Y + M + D + h + m + s;
+    },
+
+    // 格式化blocker(sealer)
+    formateBlocker: (item) => {
+      return item.sealerList[eval(item.sealer).toString(16)]
+    },
+  },
+
   mounted: async function () {
     const self = this;
 
@@ -481,25 +507,6 @@ export default {
           const aff = allList5.data.result;
           const agg = allList6.data.result;
           self.blockData = [arr, add, acc, aee, aff, agg];
-
-          for (var i = 0; i < self.blockData.length; i++) {
-            const time = Number(self.blockData[i].timestamp);
-            var date = new Date(time);
-            var Y = date.getFullYear() + '-';
-            var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-            var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
-            var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
-            var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
-            var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
-
-            self.blockData[i].timestamp = Y + M + D + h + m + s;
-
-          }
-          self.blockData = self.blockData.map((it) => ({
-            ...it,
-            number: parseInt(it.number, 16),
-            transaction: it.sealerList[eval(it.sealer).toString(16)],
-          }));
         })
       );
   },
@@ -754,6 +761,30 @@ removeDuplicate(arr) {
         //   break;
       }
     },
+
+
+
+        // 搜索按钮逻辑
+        search() {
+          
+            let searchKey = this.keyword
+            var arr = Number(searchKey).toString(16);
+            var sum = "0x" + arr;
+            var data = {
+                jsonrpc: "2.0",
+                method: "getBlockByNumber",
+                params: [1, sum, true],
+                id: 1,
+            };
+
+            // 网络请求搜索数据
+            BlockByNumber(data).then((res) => {
+                // TODO 校验搜索框输入逻辑
+                this.blockData = []
+                this.blockData=[res.data.result]
+                console.log('liunan',this.blockData)
+            })
+        },
   },
 };
 </script>

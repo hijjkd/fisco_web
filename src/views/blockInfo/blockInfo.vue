@@ -16,13 +16,13 @@ permissions and * limitations under the License. */
     <div class="module-wrapper">
       <div class="search-part">
         <div class="search-part-left-bg">
-          <span>{{ this.$t("text.total") }}</span>
+          <!-- <span>{{ this.$t("text.total") }}</span>
           <span>{{ numberFormat(total, 0, ".", ",") }}</span>
-          <span>{{ this.$t("text.tiao") }}</span>
+          <span>{{ this.$t("text.tiao") }}</span> -->
         </div>
         <div class="search-part-right">
           <el-input
-            :placeholder="$t('inputText.blockInput')"
+            :placeholder="$t('placeholder.globalSearch')"
             v-model="searchKey.value"
             class="input-with-select"
             clearable
@@ -56,7 +56,7 @@ permissions and * limitations under the License. */
           >
             <template slot-scope="scope">
               <span @click="link(scope.row)" class="link">
-                {{ scope.row && scope.row["number"] }}</span
+                {{ scope.row && scope.row["number"]|filterBlockHeight }}</span
               >
             </template>
           </el-table-column>
@@ -68,7 +68,7 @@ permissions and * limitations under the License. */
           >
             <template slot-scope="scope">
               <span class="" @click="link(scope.row)">{{
-                scope.row && scope.row["blockHash"]
+                scope.row && scope.row["transactions"] |filterTransationcount
               }}</span>
             </template>
           </el-table-column>
@@ -85,7 +85,7 @@ permissions and * limitations under the License. */
                   @click="link(scope.row)"
                   :title="$t('text.copyHash')"
                 ></i>
-                {{ scope.row && scope.row["transaction"] }}
+                {{ scope.row |filtersTransactionHash }}
               </span>
             </template>
           </el-table-column>
@@ -98,7 +98,7 @@ permissions and * limitations under the License. */
           >
             <template slot-scope="scope">
               <span class="" @click="link(scope.row)">{{
-                scope.row && scope.row["timestamp"]
+                scope.row && scope.row["timestamp"] | filtersTimeStap
               }}</span>
             </template>
           </el-table-column>
@@ -164,6 +164,49 @@ export default {
   mounted: function () {
     this.getList();
   },
+
+  filters: {
+    filterBlockHeight :(value)=> {
+      return "Block"+parseInt(value,16);
+    },
+    // 格式化transationcount
+    filterTransationcount:(value)=> {
+      console.log('liunan',value)
+      return value.length
+    },
+    // 格式化copyHash
+    filtersTransactionHash:(item)=> {
+  
+      return   item.sealerList[eval(item.sealer).toString(16)];
+    },
+    // 格式化日期
+    filtersTimeStap:(timestamp) => {
+      const time = Number(timestamp);
+      var date = new Date(time);
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D =
+        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) +
+        " ";
+      var h =
+        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) +
+        ":";
+      var m =
+        (date.getMinutes() < 10
+          ? "0" + date.getMinutes()
+          : date.getMinutes()) + ":";
+      var s =
+        date.getSeconds() < 10
+          ? "0" + date.getSeconds()
+          : date.getSeconds();
+      return Y + M + D + h + m + s;
+
+    }
+  },
+
   methods: {
     getList() {
       const seft = this;
@@ -178,33 +221,10 @@ export default {
         const arr = res.data.blocks;
         for (var i = 0; i < arr.length; i++) {
           if (arr) {
-            const time = Number(arr[i].timestamp);
-            var date = new Date(time);
-            var Y = date.getFullYear() + "-";
-            var M =
-              (date.getMonth() + 1 < 10
-                ? "0" + (date.getMonth() + 1)
-                : date.getMonth() + 1) + "-";
-            var D =
-              (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) +
-              " ";
-            var h =
-              (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) +
-              ":";
-            var m =
-              (date.getMinutes() < 10
-                ? "0" + date.getMinutes()
-                : date.getMinutes()) + ":";
-            var s =
-              date.getSeconds() < 10
-                ? "0" + date.getSeconds()
-                : date.getSeconds();
-            var times = Y + M + D + h + m + s;
-            arr[i].timestamp = times;
-            arr[i].number = "Block" + parseInt(arr[i].number, 16);
-            arr[i].blockHash = arr[i].transactions.length;
-            arr[i].transaction =
-              arr[i].sealerList[eval(arr[i].sealer).toString(16)];
+      
+            
+           
+
           }
         }
         seft.blockData = arr;
@@ -227,6 +247,32 @@ export default {
         },
       });
     },
+
+
+      // 搜索框清除键逻辑
+      clearText(){
+            this.blockData = []
+        },
+
+        // 搜索按钮逻辑
+        search() {
+            let searchKey = this.searchKey.value
+            var arr = Number(searchKey).toString(16);
+            var sum = "0x" + arr;
+            var data = {
+                jsonrpc: "2.0",
+                method: "getBlockByNumber",
+                params: [1, sum, true],
+                id: 1,
+            };
+
+            // 网络请求搜索数据
+            BlockByNumber(data).then((res) => {
+              this.blockData = []
+              this.blockData = [res.data.result]
+            })
+        },
+
     // compare(property) {
     //   return function (a, b) {
     //     var value1 = a[property];
