@@ -1,1 +1,4 @@
 202230112 fix:修改三个页面得搜索功能
+          不同环境打包方式api修改方式
+          1、执行 npm run dev 本地开发时，修改config\index.js 中proxyTable 下得IP地址和端口。
+          2、执行npm run build 打正式包，util\api中process.env.NODE_ENV else得逻辑
