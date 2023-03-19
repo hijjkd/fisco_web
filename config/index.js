@@ -11,11 +11,20 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/handle': {
-                target: 'http://101.43.246.68:8080/',
+            //v版接口
+            '/api': {
+                target: 'http://101.43.251.145:8440/',
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/handle': 'WeBASE-Front/'
+                    '^/api': ''
+                }
+            },
+            //v1版接口
+            '/api1': {
+                target: 'http://101.43.251.145:8440/',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api1': 'asl/universal/'
                 }
             },
         },

@@ -21,7 +21,7 @@ import qs from "qs";
 var HANDLE = null;
 if (process.env.NODE_ENV === "development") {
   // HANDLE = 'http://117.50.178.228:8080/'
-  HANDLE = "/handle/";
+  HANDLE = "/api/handle";
 } else {
   //远程云服务器
  // HANDLE = 'http://101.43.246.68:8080/handle/'
