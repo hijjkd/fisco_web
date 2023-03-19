@@ -22,6 +22,10 @@ const home = resolve => require(['@/views/home/home'], resolve);
 const group = resolve => require(['@/views/group'], resolve);
 const transactionInfo = resolve => require(['@/views/transactionInfo/transactionInfo'], resolve);
 const blockInfo = resolve => require(['@/views/blockInfo/blockInfo'], resolve);
+const collectionAccountInfo = resolve => require(['@/views/informationMgmt/collectionAccountInfo'], resolve);
+const financingIntentionInfo = resolve => require(['@/views/informationMgmt/financingIntentionInfo'], resolve);
+const invoiceInfo = resolve => require(['@/views/informationMgmt/invoiceInfo'], resolve);
+
 
 Vue.use(Router);
 const routes = [
@@ -85,6 +89,52 @@ const routes = [
             },
         ]
     },
+  {
+    path: '/',
+    component: main,
+    name: '信息管理',
+    enName: 'informationMgmt',
+    menuShow: true,
+    iconCls: 'wbs-icon-heyueguanli sidebar-icon',
+    children: [
+
+      {
+        path: '/collectionAccountInfo',
+        component: collectionAccountInfo,
+        name: 'collectionAccountInfo',
+        enName: 'collectionAccountInfo',
+        nameKey: "collectionAccountInfo",
+        menuShow: true,
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: '/financingIntentionInfo',
+        component: financingIntentionInfo,
+        name: 'financingIntentionInfo',
+        enName:  'financingIntentionInfo',
+        nameKey: "financingIntentionInfo",
+        menuShow: true,
+        meta: {
+          requireAuth: true
+        }
+
+      },
+      {
+        path: '/invoiceInfo',
+        component: invoiceInfo,
+        name: 'invoiceInfo',
+        enName: 'invoiceInfo',
+        nameKey: "invoiceInfo",
+        menuShow: true,
+        meta: {
+          requireAuth: true
+        }
+      }
+    ]
+  },
+
     // {
     //     path: '/',
     //     component: main,
