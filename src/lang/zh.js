@@ -33,8 +33,11 @@ export default {
         contractWarehouse: '合约仓库',
         toolsContract: '工具合约',
         informationMgmt: '信息管理',
-        collectionAccountInfo: '汇款账户信息',
-        financingIntentionInfo: '融资意向信息',
+        informationMgmtQ: '信息管理',
+        collectionAccountInfo: '汇款账户',
+        collectionAccountInfoQ: '汇款账户信息',
+        financingIntentionInfo: '融资意向',
+        financingIntentionInfoQ: '融资意向信息',
         invoiceInfo: '发票信息'
     },
     navbar: {

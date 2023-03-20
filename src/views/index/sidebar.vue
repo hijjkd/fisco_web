@@ -116,6 +116,10 @@ export default {
                     case 'subscribeEvent':
                         item.name = this.$t('route.subscribeEvent')
                         break;
+                    case 'informationMgmt':
+                      item.name = this.$t('route.informationMgmt')
+                      break;
+
 
                 }
                 if (item.children) {
@@ -163,6 +167,15 @@ export default {
                             case 'contractWarehouse':
                                 it.name = this.$t('route.contractWarehouse')
                                 break;
+                            case 'collectionAccountInfo':
+                              it.name = this.$t('route.collectionAccountInfo')
+                            break;
+                            case 'financingIntentionInfo':
+                              it.name = this.$t('route.financingIntentionInfo')
+                            break;
+                            case 'invoiceInfo':
+                              it.name = this.$t('route.invoiceInfo')
+                            break;
                         }
                     })
                 }

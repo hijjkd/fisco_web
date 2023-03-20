@@ -34,8 +34,10 @@ export default {
         toolsContract: 'Tools Contract',
         informationMgmt: 'Information Mgmt',
         informationMgmtQ: 'Information Management',
-        collectionAccountInfo: 'Collection Account Info',
-        financingIntentionInfo: 'Financing Intention Info',
+        collectionAccountInfo: 'Collection Account',
+        collectionAccountInfoQ: 'Collection Account Info',
+        financingIntentionInfo: 'Financing Intention',
+        financingIntentionInfoQ: 'Financing Intention Info',
         invoiceInfo: 'Invoice Info'
 
     },
