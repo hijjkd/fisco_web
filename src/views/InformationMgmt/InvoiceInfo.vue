@@ -2,29 +2,29 @@
   <div class="" style="padding: 20px !important;">
     <div style="width: 100%;background: #ffffff;text-align: center;display: block">
       <el-form ref="invoiceForm" :model="invoiceForm" label-width="80px">
-        <el-col :span="7">
+        <el-col :span="7" >
           <el-form-item label="证件号码">
-            <el-input v-model="invoiceForm.id_no"></el-input>
+            <el-input style="width: 95%;" v-model="invoiceForm.id_no"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="5">
           <el-form-item label="发票类型">
-            <el-select v-model="invoiceForm.invoice_class" placeholder="发票类型">
+            <el-select style="width: 95%;" v-model="invoiceForm.invoice_class" placeholder="发票类型">
               <el-option v-for="(item,index) in invoiceCategory" :key="index" :label="item.label" :value="item.value"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5" >
           <el-form-item label="时   间">
             <el-date-picker
               v-model="invoiceForm.date_time"
               type="date"
+              style="width: 95%;"
               placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="1"></el-col>
-        <el-col :span="6">
+        <el-col :span="6" style="display: block;text-align: left;padding-left: 15px;" >
           <el-button type="primary" @click="onSubmit">搜索</el-button>
           <el-button type="default" @click="resetForm">重置</el-button>
         </el-col>
