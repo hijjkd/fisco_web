@@ -3,7 +3,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-
+var ip='http://101.43.251.145:8440/';
 module.exports = {
     dev: {
 
@@ -13,18 +13,18 @@ module.exports = {
         proxyTable: {
             //v版接口
             '/api': {
-                target: 'http://101.43.251.145:8440/',
+                target: ip,
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': ''
                 }
             },
             //v1版接口
-            '/api1': {
-                target: 'http://101.43.251.145:8440/',
+            '/request': {
+                target: ip,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api1': 'asl/universal/'
+                    '^/request': ''
                 }
             },
         },

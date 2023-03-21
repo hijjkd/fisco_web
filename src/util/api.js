@@ -19,14 +19,46 @@ import { reviseParam } from "./util";
 import qs from "qs";
 
 var HANDLE = null;
+var ASL_UNIVERSAL = null;
 if (process.env.NODE_ENV === "development") {
   // HANDLE = 'http://117.50.178.228:8080/'
-  HANDLE = "/api/handle";
+  HANDLE = "/api/handle/";
+  ASL_UNIVERSAL="/request/asl/universal/";
 } else {
   //远程云服务器
- // HANDLE = 'http://101.43.246.68:8080/handle/'
+ //HANDLE = 'http://101.43.251.145:8440/handle/';
+ //ASL_UNIVERSAL="http://101.43.251.145:8440/asl/universal/";
   //本地服务器
-  HANDLE = 'http://10.63.2.112:8999/handle/'
+  //HANDLE = 'http://10.63.2.112:8999/handle/'
+
+}
+
+
+/**融资意向 */
+export function FinancingIntentionInfo(data) {
+  return get({
+    url: `${ASL_UNIVERSAL}decryptFinancingIntention`,
+    method: "get",
+  });
+}
+
+
+/**汇款账户信息 */
+export function CollectionAccountInfo(data) {
+  return get({
+    url: `${ASL_UNIVERSAL}decryptCollectionAccount`,
+    method: "get",
+  });
+}
+
+
+
+/**发票信息 */
+export function InvoiceInformation(data) {
+  return get({
+    url: `${ASL_UNIVERSAL}decryptInvoiceInformation`,
+    method: "get",
+  });
 }
 
 //交易
@@ -805,7 +837,7 @@ export function backgroundCompile(data) {
 }
 export function encryption() {
   return get({
-    url: `${HANDLE}encrypt`,
+    url: `${HANDLE}/encrypt`,
     method: "get",
     responseType: "text",
   });

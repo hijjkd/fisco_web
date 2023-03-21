@@ -782,7 +782,6 @@ removeDuplicate(arr) {
                 // TODO 校验搜索框输入逻辑
                 this.blockData = []
                 this.blockData=[res.data.result]
-                console.log('liunan',this.blockData)
             })
         },
   },

@@ -171,7 +171,6 @@ export default {
     },
     // 格式化transationcount
     filterTransationcount:(value)=> {
-      console.log('liunan',value)
       return value.length
     },
     // 格式化copyHash
