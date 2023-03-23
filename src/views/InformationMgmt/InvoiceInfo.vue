@@ -170,6 +170,14 @@ export default {
     getData(data) {
       if(data){
         //传入参数
+        let param = {
+                id: data.id_no,
+                class: data.invoice_class,
+                time: data.date_time
+            }
+        InvoiceInformation(param).then(response => {
+        this.InvoiceInfo = response.data
+      },);
       }else{
         InvoiceInformation().then(response => {
         this.InvoiceInfo = response.data

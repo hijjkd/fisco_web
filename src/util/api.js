@@ -54,10 +54,12 @@ export function CollectionAccountInfo(data) {
 
 
 /**发票信息 */
-export function InvoiceInformation(data) {
+export function InvoiceInformation(data,list) {
+  const params = reviseParam(data, list);
   return get({
     url: `${ASL_UNIVERSAL}decryptInvoiceInformation`,
     method: "get",
+    params: data
   });
 }
 
