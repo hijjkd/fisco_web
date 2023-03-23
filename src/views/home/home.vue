@@ -209,11 +209,11 @@
         <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
           <div class="overview-wrapper">
             <p>
-              <span class="overview-title">Block List</span>
+              <span class="overview-title">区块</span>
               <span
                 class="overview-more cursor-pointer"
                 @click="goRouter('blocks')"
-                >More</span
+                >更多</span
               >
             </p>
             <div class="overview-item-base" v-loading="loadingBlock">

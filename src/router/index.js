@@ -51,6 +51,7 @@ const routes = [
         path: '/',
         component: main,
         name: '节点管理',
+        enName: 'nodeManagement',
         leaf: true,
         menuShow: true,
         iconCls: 'wbs-icon-group sidebar-icon',
@@ -71,6 +72,7 @@ const routes = [
               path: '/transactionInfo',
               component: transactionInfo,
               name: 'transactionInfo',
+              enName: 'transactionInfo',
               nameKey: "transactionInfo",
               menuShow: false,
               meta: {
@@ -81,7 +83,8 @@ const routes = [
               path: '/blockInfo',
               component: blockInfo,
               name: 'blockInfo',
-              nameKey: "blockTitle",
+              enName:'blockInfo',
+              nameKey: "blockInfo",
               menuShow: true,
               meta: {
                 requireAuth: true

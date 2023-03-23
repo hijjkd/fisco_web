@@ -164,6 +164,9 @@ export default {
                             case 'onlineTools':
                                 it.name = this.$t('route.onlineTools')
                                 break;
+                            case 'blockInfo':
+                                it.name = this.$t('route.blockInfo')
+                                break;
                             case 'contractWarehouse':
                                 it.name = this.$t('route.contractWarehouse')
                                 break;

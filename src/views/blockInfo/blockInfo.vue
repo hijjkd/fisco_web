@@ -216,7 +216,6 @@ export default {
         id: 1,
       };
       BlockByNumber(data).then((res) => {
-        console.log(res.data.blocks, "111");
         const arr = res.data.blocks;
         for (var i = 0; i < arr.length; i++) {
           if (arr) {
