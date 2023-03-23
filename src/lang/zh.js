@@ -1,19 +1,19 @@
 export default {
     project: {
-        name: 'Node Console',
-        blocks: 'BlockNumber',
-        nodes: 'NodeNumber',
-        transactions: 'TransactionNumber',
-        pendingTransactions: 'PendingTransactions',
+        name: '节点控制台',
+        blocks: '区块数量',
+        nodes: '节点数量',
+        transactions: '交易数量',
+        pendingTransactions: '待交易数量',
     },
     transaction: {
         blockTips:"-1代表当前块高",
     },
     route: {
-        statistics: 'DataOverview',
-        nodeManagement: 'NodeManager',
+        statistics: '数据概览',
+        nodeManagement: '节点管理',
         nodeManagementQ: '节点管理',
-        contractManagement: 'BlockOverview',
+        contractManagement: '区块概览',
         contractManagementQ: '区块概览',
         contractIDE: '合约IDE',
         contractList: '合约列表',
@@ -24,6 +24,7 @@ export default {
         privateKeyManagementQ: '私钥管理',
         subscribeEvent: '订阅事件',
         blockEvent: '出块事件',
+        blockInfo:"区块信息",
         contractEvent: '合约事件',
         testUserList: '测试用户',
         abiList: 'ABI列表',
@@ -187,7 +188,7 @@ export default {
 
     },
     placeholder: {
-        globalSearch: 'Please input Block Number or Tx Hash',
+        globalSearch: '请输入块号或哈希',
         javaPackage: '如：com.webank',
         selected: '请选择',
         selectedAccountAddress: '请选择用户地址',

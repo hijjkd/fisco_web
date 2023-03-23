@@ -24,6 +24,7 @@ export default {
         privateKeyManagementQ: 'Private Key Management',
         subscribeEvent: 'Subscribe Event',
         blockEvent: 'Block Event',
+        blockInfo:"blockInfo",
         contractEvent: 'Contract Event',
         testUserList: 'Tester List',
         abiList: 'ABI List',

@@ -21,7 +21,7 @@ const messages = {
 export function getLanguage() {
 
     //only use en
-    return 'en'
+    return 'zh'
 }
 const i18n = new VueI18n({
     // set locale
