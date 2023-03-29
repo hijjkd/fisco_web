@@ -32,7 +32,7 @@ export default {
   }, methods: {
     getData() {
       CollectionAccountInfo().then(response => {
-        this.InvoiceInfo = response.data
+        this.InvoiceInfo = response.data.collectionAccountList
       },);
     }
   }, mounted() {

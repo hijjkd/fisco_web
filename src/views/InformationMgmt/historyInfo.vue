@@ -151,12 +151,13 @@
     </div>
     <div class="footer">
       <el-pagination
+        align="center"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="pages.currentPage"
         :page-sizes="pages.pageSizes"
         :page-size="pages.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
+        layout="total, prev, pager, next, jumper"
         :total="pages.total">
       </el-pagination>
     </div>
@@ -180,9 +181,8 @@ export default {
       tableData:"",
       pages:{
         pageSize:10,
-        pageSizes:[5,10,20,30,50],
         currentPage:1,
-        total:10
+        total:0
       },
       loading:true
 
@@ -201,7 +201,8 @@ export default {
       historicaltransaction(data).then(response => {
         that.loading = false;
         console.log(response)
-        that.tableData = response.data;
+        that.tableData = response.data.transactionHistoryList;
+        that.pages.total= response.data.totalcount;
       },error => {
         that.loading = false;
       })
@@ -240,7 +241,7 @@ export default {
 <style scoped>
  .top{
    padding: 10px;
-   pading-top:25px;
+   padding-top:25px;
  }
  .footer{
    margin-top: 5px;

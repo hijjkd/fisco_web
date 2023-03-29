@@ -1,10 +1,10 @@
 <template>
   <div class="" style="padding: 20px !important;">
     <div style="width: 100%;background: #ffffff;text-align: center;display: block">
-      <el-form ref="invoiceForm" :model="invoiceForm" label-width="80px">
+      <el-form ref="invoiceForm" :model="invoiceForm" label-width="90px">
         <el-col :span="7" >
-          <el-form-item label="证件号码">
-            <el-input style="width: 95%;" v-model="invoiceForm.id_no"></el-input>
+          <el-form-item label="供应商编号">
+            <el-input style="width:85%;" v-model="invoiceForm.id_no"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="5">
@@ -174,11 +174,11 @@ export default {
                 time: data.date_time
             }
         InvoiceInformation(param).then(response => {
-        this.InvoiceInfo = response.data
+        this.InvoiceInfo = response.data.invoiceInformationList
       },);
       }else{
         InvoiceInformation().then(response => {
-        this.InvoiceInfo = response.data
+        this.InvoiceInfo = response.data.invoiceInformationList
       },);
       }
 

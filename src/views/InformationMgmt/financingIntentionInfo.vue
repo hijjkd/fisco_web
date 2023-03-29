@@ -48,7 +48,7 @@ export default {
   }, methods: {
     getData() {
       FinancingIntentionInfo().then(response => {
-        this.InvoiceInfo = response.data
+        this.InvoiceInfo = response.data.financingIntentionList
       },);
     }
   }, mounted() {
