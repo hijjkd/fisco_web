@@ -22,14 +22,15 @@ var HANDLE = null;
 var ASL_UNIVERSAL = null;
 if (process.env.NODE_ENV === "development") {
   // HANDLE = 'http://117.50.178.228:8080/'
-  HANDLE = "/api/handle/";
-  ASL_UNIVERSAL="/request/asl/universal/";
+  HANDLE = "/api/asl/universal/handle/";
+  ASL_UNIVERSAL = "/request/asl/universal/";
 } else {
   //远程云服务器
- //HANDLE = 'http://101.43.251.145:8440/handle/';
- //ASL_UNIVERSAL="http://101.43.251.145:8440/asl/universal/";
+  //HANDLE = 'http://101.43.251.145:8440/asl/universal/handle/';
+  //ASL_UNIVERSAL="http://101.43.251.145:8440/asl/universal/";
   //本地服务器
-  //HANDLE = 'http://10.63.2.112:8999/handle/'
+  // HANDLE = 'http://101.43.251.145:8440/asl/universal/handle/';
+  // ASL_UNIVERSAL = "http://101.43.251.145:8440/asl/universal/";
 
 }
 
@@ -54,7 +55,7 @@ export function CollectionAccountInfo(data) {
 
 
 /**发票信息 */
-export function InvoiceInformation(data,list) {
+export function InvoiceInformation(data, list) {
   const params = reviseParam(data, list);
   return get({
     url: `${ASL_UNIVERSAL}decryptInvoiceInformation`,
