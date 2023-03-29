@@ -64,6 +64,16 @@ export function InvoiceInformation(data, list) {
   });
 }
 
+/**历史交易信息 */
+export function historicaltransaction(data, list) {
+  const params = reviseParam(data, list);
+  return get({
+    url: `${ASL_UNIVERSAL}decryptHistoricaltransaction`,
+    method: "get",
+    params: data
+  });
+}
+
 //交易
 export function queryHomeSearch(data) {
   return post({
