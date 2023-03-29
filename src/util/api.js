@@ -34,6 +34,13 @@ if (process.env.NODE_ENV === "development") {
 
 }
 
+/**入池信息 */
+export function EnterpoolDataInfos(data) {
+  return get({
+    url: `${ASL_UNIVERSAL}decryptEnterpoolDataInfos`,
+    method: "get",
+  });
+}
 
 /**融资意向 */
 export function FinancingIntentionInfo(data) {
