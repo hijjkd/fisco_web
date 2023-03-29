@@ -9,7 +9,7 @@
         </el-col>
         <el-col :span="5">
           <el-form-item label="发票类型">
-            <el-select style="width: 95%;" v-model="invoiceForm.invoice_class" placeholder="发票类型">
+            <el-select style="width: 95%;" v-model="invoiceForm.invoice_Type" placeholder="发票类型">
               <el-option v-for="(item,index) in invoiceCategory" :key="index" :label="item.label" :value="item.value"></el-option>
             </el-select>
           </el-form-item>
@@ -156,14 +156,12 @@ export default {
       InvoiceInfo: [],
       invoiceForm: {
         id_no: '',
-        invoice_class: '',
+        invoice_Type: '',
         date_time: ''
       },
       invoiceCategory:[
-        {label:"类型1",value:"123"},
-        {label:"类型2",value:"143"},
-        {label:"类型3",value:"156"},
-        {label:"类型4",value:"121"}
+        {label:"普通发票",value:"普通发票"},
+        {label:"专业发票",value:"专业发票"}
       ]
     }
   }, methods: {
@@ -172,7 +170,7 @@ export default {
         //传入参数
         let param = {
                 id: data.id_no,
-                class: data.invoice_class,
+                invoiceType: data.invoice_Type,
                 time: data.date_time
             }
         InvoiceInformation(param).then(response => {
@@ -188,7 +186,7 @@ export default {
     resetForm(formName) {
       this.invoiceForm ={
         id_no: '',
-        invoice_class: '',
+        invoice_Type: '',
         date_time: ''
       }
     },
