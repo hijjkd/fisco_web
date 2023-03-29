@@ -134,6 +134,28 @@ const routes = [
         meta: {
           requireAuth: true
         }
+      },
+      {
+        path: '/historyInfo',
+        component:(resolve) => require(['@/views/informationMgmt/historyInfo'],resolve),
+        name: 'historyInfo',
+        enName: 'historyInfo',
+        nameKey: "historyInfo",
+        menuShow: true,
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: '/enterPoolInfo',
+        component:(resolve) => require(['@/views/informationMgmt/enterPoolInfo'],resolve),
+        name: 'enterPoolInfo',
+        enName: 'enterPoolInfo',
+        nameKey: "enterPoolInfo",
+        menuShow: true,
+        meta: {
+          requireAuth: true
+        }
       }
     ]
   },

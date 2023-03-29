@@ -179,6 +179,12 @@ export default {
                             case 'invoiceInfo':
                               it.name = this.$t('route.invoiceInfo')
                             break;
+                            case 'historyInfo':
+                              it.name = this.$t('route.historyInfo')
+                              break;
+                            case 'enterPoolInfo':
+                              it.name = this.$t('route.enterPoolInfo')
+                              break;
                         }
                     })
                 }

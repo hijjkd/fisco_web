@@ -35,11 +35,14 @@ export default {
         toolsContract: '工具合约',
         informationMgmt: '信息管理',
         informationMgmtQ: '信息管理',
-        collectionAccountInfo: '汇款账户',
-        collectionAccountInfoQ: '汇款账户信息',
+        collectionAccountInfo: '回款账户',
+        collectionAccountInfoQ: '回款账户信息',
         financingIntentionInfo: '融资意向',
         financingIntentionInfoQ: '融资意向信息',
-        invoiceInfo: '发票信息'
+        invoiceInfo: '发票信息',
+        historyInfo:'历史交易',
+        historyInfoQ:'历史交易信息',
+        enterPoolInfo:'入池信息',
     },
     navbar: {
         dashboard: '首页',

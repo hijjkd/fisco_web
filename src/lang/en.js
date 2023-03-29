@@ -39,7 +39,10 @@ export default {
         collectionAccountInfoQ: 'Collection Account Info',
         financingIntentionInfo: 'Financing Intention',
         financingIntentionInfoQ: 'Financing Intention Info',
-        invoiceInfo: 'Invoice Info'
+        invoiceInfo: 'Invoice Info',
+        historyInfo:'History Info',
+        historyInfoQ:'History Info',
+        enterPoolInfo:'Enter Pool Info',
 
     },
     navbar: {
