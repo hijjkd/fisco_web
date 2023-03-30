@@ -2,7 +2,7 @@
   <div class="" style="padding: 20px !important;">
        <div style="width: 100%;height: 30px;background: #ffffff;text-align: center" ></div>
        <div v-autoTableHeight='100'>
-         <el-table :data="InvoiceInfo" style="width: 100%;height: 100%">
+         <el-table :data="tableData" style="width: 100%;height: 100%">
           <el-table-column fixed prop="CustcdLinkPosition" label="联系人职位" >
           </el-table-column>
           <el-table-column prop="CustcdLinkName" label="联系人" >
@@ -43,12 +43,12 @@ import { FinancingIntentionInfo } from "@/util/api";
 export default {
   data() {
     return {
-      InvoiceInfo: []
+      tableData: []
     }
   }, methods: {
     getData() {
       FinancingIntentionInfo().then(response => {
-        this.InvoiceInfo = response.data.financingIntentionList
+        this.tableData = response.data.financingIntentionList
       },);
     }
   }, mounted() {

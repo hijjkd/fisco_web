@@ -127,15 +127,6 @@
 </template>
 
 <script>
-export default {
-  name: "enterPoolInfo"
-}
-</script>
-
-<style scoped>
-
-</style>
-<script>
 
 import { EnterpoolDataInfos } from "@/util/api";
 
@@ -149,7 +140,7 @@ export default {
         startTime:"",
         endTime:""
       },
-      tableData:"",
+      tableData:[],
       pages:{
         pageSize:10,
         currentPage:1,

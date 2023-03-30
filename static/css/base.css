@@ -1,0 +1,9 @@
+/* 信息管理子页面页头 */
+.title {
+  width: 100%;
+  color: whitesmoke;
+  text-align: center;
+  display: block;
+  font-size: 30px;
+  margin-bottom: 15px;
+}
