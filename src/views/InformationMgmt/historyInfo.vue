@@ -3,11 +3,6 @@
     <div class="top">
       <el-form ref="historyForm" :model="historyForm">
         <el-row>
-          <div class="title">
-            历史交易
-          </div>
-        </el-row>
-        <el-row>
           <el-col :span="8">
             <el-form-item label="供应商编号" label-width="89px">
               <el-input style="width: 95%;" v-model="historyForm.id_no"></el-input>
@@ -37,14 +32,12 @@
           
           <el-col :span="6" style="display: block;text-align: left;padding-left: 15px;">
             <el-button type="primary" @click="onSubmit">搜索</el-button>
-          </el-col>
-          <el-col :span="6" style="display: block;text-align: left;padding-left: 15px;margin-top: 5px;">
             <el-button type="default" @click="resetForm">重置</el-button>
           </el-col>
         </el-row>
       </el-form>
     </div>
-    <div class="body" v-autoTableHeight="150">
+    <div class="body" v-autoTableHeight="190">
       <el-table v-loading="loading" :data="tableData" height="100%" width="100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" fixed align="center" width="75">
