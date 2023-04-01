@@ -9,7 +9,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="发票编号">
+            <el-form-item label="发票号码">
               <el-input style="width:85%;" v-model="invoiceForm.invoiceNum" clearable></el-input>
             </el-form-item>
           </el-col>
