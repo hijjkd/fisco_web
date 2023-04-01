@@ -5,12 +5,12 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="供应商编号" label-width="89px">
-              <el-input style="width: 95%;" v-model="historyForm.id_no"></el-input>
+              <el-input style="width: 95%;" v-model="historyForm.id_no" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="融资意向申请编号" label-width="135px">
-              <el-input style="width: 95%;" v-model="historyForm.apply_no"></el-input>
+              <el-input style="width: 95%;" v-model="historyForm.apply_no" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -29,7 +29,6 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          
           <el-col :span="6" style="display: block;text-align: left;padding-left: 15px;">
             <el-button type="primary" @click="onSubmit">搜索</el-button>
             <el-button type="default" @click="resetForm">重置</el-button>
@@ -140,7 +139,7 @@ export default {
     /**
      * 重置按钮
      */
-     resetForm(formName) {
+    resetForm(formName) {
       this.historyForm = {
         id_no: "",//供应商编号
         apply_no: "",//融资意向申请编号
@@ -185,6 +184,9 @@ export default {
       console.log(`当前页: ${val}`);
       console.log(this.historyForm);
       const data = {
+        'id': this.historyForm.id_no,
+        'financeid': this.historyForm.apply_no,
+        'tradeyearmonth': this.historyForm.startTime + 'to' + this.historyForm.endTime,
         'pageid': val
       };
       this.getDecryptHistoricaltransaction(data)

@@ -2,36 +2,53 @@
   <div>
     <div class="top">
       <el-form ref="invoiceForm" :model="invoiceForm" label-width="90px">
-        <el-col :span="7">
-          <el-form-item label="供应商编号">
-            <el-input style="width:85%;" v-model="invoiceForm.id"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="发票类型">
-            <el-select style="width: 95%;" v-model="invoiceForm.invoiceType" placeholder="发票类型">
-              <el-option v-for="(item, index) in invoiceCategory" :key="index" :label="item.label"
-                :value="item.value"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="时   间">
-            <el-date-picker v-model="invoiceForm.time" type="date" style="width: 95%;" placeholder="选择日期">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6" style="display: block;text-align: left;padding-left: 15px;">
-          <el-button type="primary" @click="onSubmit">搜索</el-button>
-          <el-button type="default" @click="resetForm">重置</el-button>
-        </el-col>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="供应商编号">
+              <el-input style="width:85%;" v-model="invoiceForm.id" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="发票编号">
+              <el-input style="width:85%;" v-model="invoiceForm.invoiceNum" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="发票类型">
+              <el-select style="width: 95%;" v-model="invoiceForm.invoiceType" placeholder="发票类型">
+                <el-option v-for="(item, index) in invoiceCategory" :key="index" :label="item.label"
+                  :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="开始时间">
+              <el-date-picker v-model="invoiceForm.startTime" value-format="yyyy-MM" type="month" style="width: 95%;"
+                placeholder="选择年月">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="结束时间">
+              <el-date-picker v-model="invoiceForm.endTime" value-format="yyyy-MM" type="month" style="width: 95%;"
+                placeholder="选择年月">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6" style="display: block;text-align: left;padding-left: 15px;">
+            <el-button type="primary" @click="onSubmit">搜索</el-button>
+            <el-button type="default" @click="resetForm">重置</el-button>
+          </el-col>
+        </el-row>
       </el-form>
     </div>
-    <div  class='body' v-autoTableHeight="150">
-      <el-table v-loading="loading"
-      :data="InvoiceInfo" 
-      style="width: 100%" 
-      height="100%">
+    <div class='body' v-autoTableHeight="190">
+      <el-table v-loading="loading" :data="InvoiceInfo" style="width: 100%" height="100%"
+        @selection-change="handleSelectionChange">
+        <el-table-column type="selection" fixed align="center" width="75">
+        </el-table-column>
         <el-table-column fixed prop="certificateId" label="供应商证件号码" width="150">
         </el-table-column>
         <el-table-column fixed prop="customerId" label="供应商编号" width="120">
@@ -69,18 +86,13 @@
       </el-table>
     </div>
     <div class="footer">
-    <el-pagination 
-      @size-change="handleSizeChange" 
-      @current-change="handleCurrentChange"
-      :current-page="pages.currentPage" 
-      :page-size="pages.pageSize"
-      layout="total, prev, pager, next, jumper" 
-      :total="pages.total">
-    </el-pagination>
-    
+      <el-pagination align="center" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        :current-page="pages.currentPage" :page-size="pages.pageSize" layout="total, prev, pager, next, jumper"
+        :total="pages.total">
+      </el-pagination>
+
     </div>
   </div>
-
 </template>
 
 <style>
@@ -94,10 +106,10 @@
 }
 
 
-.top{
-   padding: 10px;
-   padding-top:25px;
- }
+.top {
+  padding: 10px;
+  padding-top: 25px;
+}
 
 .footer {
   margin-top: 5px;
@@ -116,8 +128,10 @@ export default {
       InvoiceInfo: [],
       invoiceForm: {
         id: "",
+        invoiceNum: "",
         invoiceType: "",
-        time: ""
+        startTime: "",
+        endTime: ""
       },
       invoiceCategory: [
         { label: "普通发票", value: "普通发票" },
@@ -150,17 +164,19 @@ export default {
     //     });
     //   }
     // },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
 
-
-    getInvoiceInformation(data){
+    getInvoiceInformation(data) {
       const that = this;
       this.loading = true;
       InvoiceInformation(data).then(response => {
         that.loading = false;
         console.log(response)
         that.InvoiceInfo = response.data.invoiceInformationList;
-        that.pages.total= response.data.totalcount;
-      },error => {
+        that.pages.total = response.data.totalcount;
+      }, error => {
         that.loading = false;
       })
     },
@@ -168,30 +184,54 @@ export default {
 
     resetForm(formName) {
       this.invoiceForm = {
-        time: "",
+        id: "",
+        invoiceNum: "",
         invoiceType: "",
-        time: ""
+        startTime: "",
+        endTime: ""
       };
+      this.getInvoiceInformation()
     },
+
     onSubmit() {
-      this.getInvoiceInformation(this.invoiceForm);
+      const data = {
+        'id': this.invoiceForm.id,
+        'invoiceNum': this.invoiceForm.invoiceNum,
+        'invoiceType': this.invoiceForm.invoiceType,
+        'time': this.invoiceForm.startTime + 'to' + this.invoiceForm.endTime,
+      }
+      this.getInvoiceInformation(data);
     },
-    handleData(data){
-    if(!data){
-      return;
-    }
-  },
+
+
+    handleData(data) {
+      if (!data) {
+        return;
+      }
+    },
+
+
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
+
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      console.log(this.invoiceForm)
+      const data = {
+        'id': this.invoiceForm.id,
+        'invoiceNum': this.invoiceForm.invoiceNum,
+        'invoiceType': this.invoiceForm.invoiceType,
+        'time': this.invoiceForm.startTime + 'to' + this.invoiceForm.endTime,
+        "pageid": val,
+      }
+      this.getInvoiceInformation(data);
     }
   },
+
   mounted() {
     this.getInvoiceInformation();
   },

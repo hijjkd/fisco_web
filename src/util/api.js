@@ -39,6 +39,7 @@ export function EnterpoolDataInfos(data) {
   return get({
     url: `${ASL_UNIVERSAL}decryptEnterpoolDataInfos`,
     method: "get",
+    params: data
   });
 }
 
@@ -47,6 +48,7 @@ export function FinancingIntentionInfo(data) {
   return get({
     url: `${ASL_UNIVERSAL}decryptFinancingIntention`,
     method: "get",
+    params: data
   });
 }
 
@@ -56,14 +58,14 @@ export function CollectionAccountInfo(data) {
   return get({
     url: `${ASL_UNIVERSAL}decryptCollectionAccount`,
     method: "get",
+    params: data
   });
 }
 
 
 
 /**发票信息 */
-export function InvoiceInformation(data, list) {
-  const params = reviseParam(data, list);
+export function InvoiceInformation(data) {
   return get({
     url: `${ASL_UNIVERSAL}decryptInvoiceInformation`,
     method: "get",
@@ -72,8 +74,7 @@ export function InvoiceInformation(data, list) {
 }
 
 /**历史交易信息 */
-export function historicaltransaction(data, list) {
-  const params = reviseParam(data, list);
+export function historicaltransaction(data) {
   return get({
     url: `${ASL_UNIVERSAL}decryptHistoricaltransaction`,
     method: "get",

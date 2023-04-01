@@ -98,7 +98,7 @@ const routes = [
     name: '信息管理',
     enName: 'informationMgmt',
     menuShow: true,
-    iconCls: 'wbs-icon-heyueguanli sidebar-icon',
+    iconCls: 'wbs-icon-baocun sidebar-icon',
     children: [
 
       {
