@@ -119,6 +119,9 @@ export default {
                     case 'informationMgmt':
                       item.name = this.$t('route.informationMgmt')
                       break;
+                    case 'filesMgmt':
+                      item.name = this.$t('route.filesMgmt')
+                      break;
 
 
                 }
@@ -184,6 +187,9 @@ export default {
                               break;
                             case 'enterPoolInfo':
                               it.name = this.$t('route.enterPoolInfo')
+                              break;
+                            case 'filesInfo':
+                              it.name = this.$t('route.filesInfo')
                               break;
                         }
                     })

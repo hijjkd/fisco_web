@@ -43,6 +43,8 @@ export default {
         historyInfo:'History Info',
         historyInfoQ:'History Info',
         enterPoolInfo:'Enter Pool Info',
+        filesMgmt:'Files Mgmt',
+        filesInfo:'Files Info'
 
     },
     navbar: {

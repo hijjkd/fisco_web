@@ -159,6 +159,27 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/',
+    component: main,
+    name: '文件管理',
+    enName: 'filesMgmt',
+    menuShow: true,
+    iconCls: 'wbs-icon-baocun sidebar-icon',
+    children: [
+      {
+        path: '/filesInfo',
+        component:(resolve) => require(['@/views/filesMgmt/filesInfo'],resolve),
+        name: 'filesInfo',
+        enName: 'filesInfo',
+        nameKey: "filesInfo",
+        menuShow: true,
+        meta: {
+          requireAuth: true
+        }
+      }
+    ]
+  },
 
     // {
     //     path: '/',

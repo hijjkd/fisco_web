@@ -43,6 +43,8 @@ export default {
         historyInfo:'历史交易',
         historyInfoQ:'历史交易信息',
         enterPoolInfo:'入池信息',
+        filesMgmt:'文件管理',
+        filesInfo:'文件信息'
     },
     navbar: {
         dashboard: '首页',
