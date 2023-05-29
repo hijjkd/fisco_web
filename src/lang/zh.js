@@ -1,4 +1,25 @@
 export default {
+    login: {
+        user: "账号",
+        password: "密码",
+        verificationCode: "验证码",
+        login: "登录",
+        guomi: "国密",
+        hash: "普通",
+        ForgetPassword: "忘记密码",
+        VerificaFailed: "验证码加载失败",
+        ForgetPasswordMsg: '如忘记密码，请在WeBASE在线文档中搜索',
+        VerificaFailedMsg: "如验证码加载失败，请检查WeBASE服务的网络端口是否开放，详情可在WeBASE在线文档中搜索",
+        FollowPrompt: ',参考提示进行操作'
+    }, inputText: {
+        user: "请输入账号",
+        password: "请输入密码",
+        newPassword: "请输入新密码",
+        verificationCode: "请输入验证码",
+        blockInput: "请输入区块哈希或块高",
+        contractSearch: "请输入合约名或合约地址",
+        transactionSearch: "请输入交易哈希或块高"
+    },
     project: {
         name: '节点控制台',
         blocks: '区块数量',
