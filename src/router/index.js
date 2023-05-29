@@ -29,69 +29,75 @@ const invoiceInfo = resolve => require(['@/views/informationMgmt/invoiceInfo'], 
 
 Vue.use(Router);
 const routes = [
-    {
-        path: '/',
-        redirect: '/home',
-    },
-    {
-        path: '/main',
-        name: 'main',
-        redirect: '/home',
-        leaf: true,
-        menuShow: true,
-        iconCls: 'wbs-icon-gailan sidebar-icon',
-        component: main,
-        children: [
-            {
-                path: '/home', component: home, name: '数据概览', enName: 'statistics', menuShow: true, meta: { requireAuth: false }
-            }
-        ]
-    },
-    {
-        path: '/',
-        component: main,
-        name: '节点管理',
-        enName: 'nodeManagement',
-        leaf: true,
-        menuShow: true,
-        iconCls: 'wbs-icon-group sidebar-icon',
-        children: [
-            { path: '/group', component: group, name: '节点管理', enName: 'nodeManagement', menuShow: true, meta: { requireAuth: false } },
-        ]
-    },
-    {
-        path: '/',
-        component: main,
-        name: '区块概览',
-        enName: 'contractManagement',
-        menuShow: true,
-        iconCls: 'wbs-icon-heyueguanli sidebar-icon',
-        children: [
+  {
+    path: '/',
+    redirect: '/login',
+  },
+  {
+    path: '/login',
+    nameKey: "login",
+    name: 'login',
+    component: resolve => require(['@/views/login/login'], resolve),
+  },
+  {
+    path: '/main',
+    name: 'main',
+    redirect: '/home',
+    leaf: true,
+    menuShow: true,
+    iconCls: 'wbs-icon-gailan sidebar-icon',
+    component: main,
+    children: [
+      {
+        path: '/home', component: home, name: '数据概览', enName: 'statistics', menuShow: true, meta: { requireAuth: false }
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: main,
+    name: '节点管理',
+    enName: 'nodeManagement',
+    leaf: true,
+    menuShow: true,
+    iconCls: 'wbs-icon-group sidebar-icon',
+    children: [
+      { path: '/group', component: group, name: '节点管理', enName: 'nodeManagement', menuShow: true, meta: { requireAuth: false } },
+    ]
+  },
+  {
+    path: '/',
+    component: main,
+    name: '区块概览',
+    enName: 'contractManagement',
+    menuShow: true,
+    iconCls: 'wbs-icon-heyueguanli sidebar-icon',
+    children: [
 
-            {
-              path: '/transactionInfo',
-              component: transactionInfo,
-              name: 'transactionInfo',
-              enName: 'transactionInfo',
-              nameKey: "transactionInfo",
-              menuShow: false,
-              meta: {
-                requireAuth: true
-              }
-            },
-            {
-              path: '/blockInfo',
-              component: blockInfo,
-              name: 'blockInfo',
-              enName:'blockInfo',
-              nameKey: "blockInfo",
-              menuShow: true,
-              meta: {
-                requireAuth: true
-              }
-            },
-        ]
-    },
+      {
+        path: '/transactionInfo',
+        component: transactionInfo,
+        name: 'transactionInfo',
+        enName: 'transactionInfo',
+        nameKey: "transactionInfo",
+        menuShow: false,
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: '/blockInfo',
+        component: blockInfo,
+        name: 'blockInfo',
+        enName: 'blockInfo',
+        nameKey: "blockInfo",
+        menuShow: true,
+        meta: {
+          requireAuth: true
+        }
+      },
+    ]
+  },
   {
     path: '/',
     component: main,
@@ -116,7 +122,7 @@ const routes = [
         path: '/financingIntentionInfo',
         component: financingIntentionInfo,
         name: 'financingIntentionInfo',
-        enName:  'financingIntentionInfo',
+        enName: 'financingIntentionInfo',
         nameKey: "financingIntentionInfo",
         menuShow: true,
         meta: {
@@ -137,7 +143,7 @@ const routes = [
       },
       {
         path: '/historyInfo',
-        component:(resolve) => require(['@/views/informationMgmt/historyInfo'],resolve),
+        component: (resolve) => require(['@/views/informationMgmt/historyInfo'], resolve),
         name: 'historyInfo',
         enName: 'historyInfo',
         nameKey: "historyInfo",
@@ -148,7 +154,7 @@ const routes = [
       },
       {
         path: '/enterPoolInfo',
-        component:(resolve) => require(['@/views/informationMgmt/enterPoolInfo'],resolve),
+        component: (resolve) => require(['@/views/informationMgmt/enterPoolInfo'], resolve),
         name: 'enterPoolInfo',
         enName: 'enterPoolInfo',
         nameKey: "enterPoolInfo",
@@ -165,11 +171,11 @@ const routes = [
     name: '文件管理',
     enName: 'filesMgmt',
     menuShow: true,
-    iconCls: 'wbs-icon-baocun sidebar-icon',
+    iconCls: 'wbs-icon-wenjianxuanzhong sidebar-icon',
     children: [
       {
         path: '/filesInfo',
-        component:(resolve) => require(['@/views/filesMgmt/filesInfo'],resolve),
+        component: (resolve) => require(['@/views/filesMgmt/filesInfo'], resolve),
         name: 'filesInfo',
         enName: 'filesInfo',
         nameKey: "filesInfo",
@@ -181,55 +187,53 @@ const routes = [
     ]
   },
 
-    // {
-    //     path: '/',
-    //     component: main,
-    //     name: '系统监控',
-    //     enName: 'systemMonitoring',
-    //     menuShow: true,
-    //     iconCls: 'wbs-icon-monitor sidebar-icon',
-    //     children: [
-    //         { path: '/hostMetric', component: hostMetric, name: '主机指标', enName: 'hostMetrics', menuShow: true, meta: { requireAuth: false } },
-    //         { path: '/nodesMetric', component: nodesMetric, name: '节点指标', enName: 'nodeMetrics', menuShow: true, meta: { requireAuth: false } },
-    //     ]
-    // },
-    // {
-    //     path: '/',
-    //     component: main,
-    //     name: '订阅事件',
-    //     enName: 'subscribeEvent',
-    //     menuShow: true,
-    //     iconCls: 'wbs-icon-dingyue sidebar-icon',
-    //     children: [
-    //         { path: '/blockEvent', component: blockEvent, name: '出块事件', enName: 'blockEvent', menuShow: true, meta: { requireAuth: false } },
-    //         { path: '/contractEvent', component: contractEvent, name: '合约Event事件', enName: 'contractEvent', menuShow: true, meta: { requireAuth: false } }
-    //     ]
-    // },
-    // {
-    //     path: '/',
-    //     component: main,
-    //     name: '订阅事件',
-    //     enName: 'subscribeEvent',
-    //     menuShow: false,
-    //     iconCls: 'wbs-icon-dingyue sidebar-icon',
-    //     children: [
-    //         { path: '/blank', component: blank, name: '出块事件', enName: 'blank', menuShow: true, meta: { requireAuth: false } },
+  // {
+  //     path: '/',
+  //     component: main,
+  //     name: '系统监控',
+  //     enName: 'systemMonitoring',
+  //     menuShow: true,
+  //     iconCls: 'wbs-icon-monitor sidebar-icon',
+  //     children: [
+  //         { path: '/hostMetric', component: hostMetric, name: '主机指标', enName: 'hostMetrics', menuShow: true, meta: { requireAuth: false } },
+  //         { path: '/nodesMetric', component: nodesMetric, name: '节点指标', enName: 'nodeMetrics', menuShow: true, meta: { requireAuth: false } },
+  //     ]
+  // },
+  // {
+  //     path: '/',
+  //     component: main,
+  //     name: '订阅事件',
+  //     enName: 'subscribeEvent',
+  //     menuShow: true,
+  //     iconCls: 'wbs-icon-dingyue sidebar-icon',
+  //     children: [
+  //         { path: '/blockEvent', component: blockEvent, name: '出块事件', enName: 'blockEvent', menuShow: true, meta: { requireAuth: false } },
+  //         { path: '/contractEvent', component: contractEvent, name: '合约Event事件', enName: 'contractEvent', menuShow: true, meta: { requireAuth: false } }
+  //     ]
+  // },
+  // {
+  //     path: '/',
+  //     component: main,
+  //     name: '订阅事件',
+  //     enName: 'subscribeEvent',
+  //     menuShow: false,
+  //     iconCls: 'wbs-icon-dingyue sidebar-icon',
+  //     children: [
+  //         { path: '/blank', component: blank, name: '出块事件', enName: 'blank', menuShow: true, meta: { requireAuth: false } },
 
-    //     ]
-    // },
-    {
-        path:'*',
-        redirect: '/home',
-    }
+  //     ]
+  // },
+
 ]
 const router = new Router({
-    routes
+  mode: "history",
+  routes
 });
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
-    if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
-    return originalPush.call(this, location).catch(err => err)
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
 }
 
 export default router
