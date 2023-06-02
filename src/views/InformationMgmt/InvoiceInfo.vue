@@ -8,9 +8,34 @@
               <el-input style="width:85%;" v-model="invoiceForm.id" clearable></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="核心企业证件号">
+              <el-input style="width:80%;" v-model="invoiceForm.interCustomerId" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="拥有方">
+              <el-select style="width: 60%;" v-model="invoiceForm.owner" placeholder="拥有方">
+                <el-option v-for="(item, index) in ownerCategory" :key="index" :label="item.label"
+                  :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="5">
             <el-form-item label="发票号码">
               <el-input style="width:85%;" v-model="invoiceForm.invoiceNum" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="发票代码">
+              <el-input style="width:85%;" v-model="invoiceForm.invoiceCode" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="发票校验码">
+              <el-input style="width:85%;" v-model="invoiceForm.checkCode" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -59,29 +84,29 @@
         </el-table-column>
         <el-table-column prop="interCustomerId" label="核心企业的证件号" width="120">
         </el-table-column>
-        <el-table-column prop="InvoiceNotaxAmt" label="发票不含税金额（专票）" width="170">
+        <el-table-column prop="invoiceNotaxAmt" label="发票不含税金额（专票）" width="170">
         </el-table-column>
-        <el-table-column prop="InvoiceCcy" label="发票币种" width="120">
+        <el-table-column prop="invoiceCcy" label="发票币种" width="120">
         </el-table-column>
-        <el-table-column prop="SellerName" label="销方名称" width="120">
+        <el-table-column prop="sellerName" label="销方名称" width="120">
         </el-table-column>
-        <el-table-column prop="InvoiceType" label="发票类型" width="120">
+        <el-table-column prop="invoiceType" label="发票类型" width="120">
         </el-table-column>
-        <el-table-column prop="BuyerName" label="购方名称" width="120">
+        <el-table-column prop="buyerName" label="购方名称" width="120">
         </el-table-column>
-        <el-table-column prop="BuyerUsccode" label="购方税号" width="120">
+        <el-table-column prop="buyerUsccode" label="购方税号" width="120">
         </el-table-column>
-        <el-table-column prop="InvoiceDate" label="开票日期" width="120">
+        <el-table-column prop="invoiceDate" label="开票日期" width="120">
         </el-table-column>
-        <el-table-column prop="SellerUsccode" label="销方税号" width="120">
+        <el-table-column prop="sellerUsccode" label="销方税号" width="120">
         </el-table-column>
-        <el-table-column prop="InvoiceCode" label="发票代码" width="120">
+        <el-table-column prop="invoiceCode" label="发票代码" width="120">
         </el-table-column>
-        <el-table-column prop="InvoiceNum" label="发票号码" width="120">
+        <el-table-column prop="invoiceNum" label="发票号码" width="120">
         </el-table-column>
-        <el-table-column prop="CheckCode" label="校验码后六位" width="120">
+        <el-table-column prop="checkCode" label="校验码后六位" width="120">
         </el-table-column>
-        <el-table-column prop="InvoiceAmt" label="发票金额" width="120">
+        <el-table-column prop="invoiceAmt" label="发票金额" width="120">
         </el-table-column>
       </el-table>
     </div>
@@ -127,15 +152,26 @@ export default {
     return {
       InvoiceInfo: [],
       invoiceForm: {
-        id: "",
-        invoiceNum: "",
-        invoiceType: "",
+        id: "",//供应商编号
+        interCustomerId:"",//核心企业号
+        checkCode:"",//发票校验码
+        owner:"",//拥有方
+        invoiceNum: "",//发票号码
+        invoiceType: "",//发票类型
+        invoiceCode:"",//发票代码
+        /**
+         * 查询发票的起止时间，拼接为date以to分割。
+         */
         startTime: "",
         endTime: ""
       },
       invoiceCategory: [
         { label: "普通发票", value: "普通发票" },
         { label: "专业发票", value: "专业发票" }
+      ],
+      ownerCategory: [
+        { label: "保理", value: "00" },
+        { label: "银行", value: "11" }
       ],
       pages: {
         pageSize: 10,
@@ -181,7 +217,7 @@ export default {
       })
     },
 
-
+    //重置搜索选项
     resetForm(formName) {
       this.invoiceForm = {
         id: "",

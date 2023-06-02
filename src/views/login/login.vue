@@ -195,8 +195,7 @@ export default {
       let checkCode = this.loginForm.vercode;
       login(reqData, checkCode, this.authToken)
         .then((res) => {
-          console.log('liunandd')
-          if (res.data.code  != "密码错误") {
+          if (res.data.code  == "") {
             localStorage.setItem("access_token", res.data.result);
             this.logining = false;
             this.$router.push({

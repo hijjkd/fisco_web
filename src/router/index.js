@@ -107,29 +107,29 @@ const routes = [
     iconCls: 'wbs-icon-baocun sidebar-icon',
     children: [
 
-      {
-        path: '/collectionAccountInfo',
-        component: collectionAccountInfo,
-        name: 'collectionAccountInfo',
-        enName: 'collectionAccountInfo',
-        nameKey: "collectionAccountInfo",
-        menuShow: true,
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
-        path: '/financingIntentionInfo',
-        component: financingIntentionInfo,
-        name: 'financingIntentionInfo',
-        enName: 'financingIntentionInfo',
-        nameKey: "financingIntentionInfo",
-        menuShow: true,
-        meta: {
-          requireAuth: true
-        }
+      // {
+      //   path: '/collectionAccountInfo',
+      //   component: collectionAccountInfo,
+      //   name: 'collectionAccountInfo',
+      //   enName: 'collectionAccountInfo',
+      //   nameKey: "collectionAccountInfo",
+      //   menuShow: true,
+      //   meta: {
+      //     requireAuth: true
+      //   }
+      // },
+      // {
+      //   path: '/financingIntentionInfo',
+      //   component: financingIntentionInfo,
+      //   name: 'financingIntentionInfo',
+      //   enName: 'financingIntentionInfo',
+      //   nameKey: "financingIntentionInfo",
+      //   menuShow: true,
+      //   meta: {
+      //     requireAuth: true
+      //   }
 
-      },
+      // },
       {
         path: '/invoiceInfo',
         component: invoiceInfo,
@@ -165,27 +165,27 @@ const routes = [
       }
     ]
   },
-  {
-    path: '/',
-    component: main,
-    name: '文件管理',
-    enName: 'filesMgmt',
-    menuShow: true,
-    iconCls: 'wbs-icon-wenjianxuanzhong sidebar-icon',
-    children: [
-      {
-        path: '/filesInfo',
-        component: (resolve) => require(['@/views/filesMgmt/filesInfo'], resolve),
-        name: 'filesInfo',
-        enName: 'filesInfo',
-        nameKey: "filesInfo",
-        menuShow: true,
-        meta: {
-          requireAuth: true
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/',
+  //   component: main,
+  //   name: '文件管理',
+  //   enName: 'filesMgmt',
+  //   menuShow: true,
+  //   iconCls: 'wbs-icon-wenjianxuanzhong sidebar-icon',
+  //   children: [
+  //     {
+  //       path: '/filesInfo',
+  //       component: (resolve) => require(['@/views/filesMgmt/filesInfo'], resolve),
+  //       name: 'filesInfo',
+  //       enName: 'filesInfo',
+  //       nameKey: "filesInfo",
+  //       menuShow: true,
+  //       meta: {
+  //         requireAuth: true
+  //       }
+  //     }
+  //   ]
+  // },
 
   // {
   //     path: '/',

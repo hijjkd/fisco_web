@@ -57,7 +57,10 @@ export function EnterpoolDataInfos(data) {
   return get({
     url: `${ASL_UNIVERSAL}decryptEnterpoolDataInfos`,
     method: "get",
-    params: data
+    params: data,
+    headers: {
+      Authorization: localStorage.getItem("access_token") || ""
+    }
   });
 }
 
@@ -67,7 +70,10 @@ export function FinancingIntentionInfo(data,list) {
     url: `${ASL_UNIVERSAL}decryptFinancingIntention`,
     method: "get",
     params: data,
-    headers :list
+    headers :list,
+    headers: {
+      Authorization: localStorage.getItem("access_token") || ""
+    }
   });
 }
 
@@ -77,7 +83,10 @@ export function CollectionAccountInfo(data) {
   return get({
     url: `${ASL_UNIVERSAL}decryptCollectionAccount`,
     method: "get",
-    params: data
+    params: data,
+    headers: {
+      Authorization: localStorage.getItem("access_token") || ""
+    }
   });
 }
 
@@ -88,7 +97,10 @@ export function InvoiceInformation(data) {
   return get({
     url: `${ASL_UNIVERSAL}decryptInvoiceInformation`,
     method: "get",
-    params: data
+    params: data,
+    headers: {
+      Authorization: localStorage.getItem("access_token") || ""
+    }
   });
 }
 
@@ -97,7 +109,10 @@ export function historicaltransaction(data) {
   return get({
     url: `${ASL_UNIVERSAL}decryptHistoricaltransaction`,
     method: "get",
-    params: data
+    params: data,
+    headers: {
+      Authorization: localStorage.getItem("access_token") || ""
+    }
   });
 }
 

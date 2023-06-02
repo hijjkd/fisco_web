@@ -104,6 +104,8 @@ axiosIns.interceptors.response.use(
         return response;
     },
     error => {
+        console.debug("net interceptors error:")
+        console.log("net interceptors error:"+error)
         if (localStorage.getItem('lang') === "en") {
             error.data = 'Timeout'
         } else {

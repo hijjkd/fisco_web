@@ -48,19 +48,19 @@
         </el-table-column>
 
         <el-table-column label="计划信息">
-          <el-table-column prop="planInfos[0].TradeYearMonth" width="90" label="交易年月（当天）">
+          <el-table-column prop="planInfos[0].tradeYearMonth" width="90" label="交易年月（当天）">
           </el-table-column>
-          <el-table-column prop="planInfos[0].PlanAmount" width="90" label="生产计划金额">
+          <el-table-column prop="planInfos[0].planAmount" width="90" label="生产计划金额">
           </el-table-column>
-          <el-table-column prop="planInfos[0].Currency" label="币种">
+          <el-table-column prop="planInfos[0].currency" label="币种">
           </el-table-column>
         </el-table-column>
         <el-table-column label="入库信息">
-          <el-table-column prop="ProviderUsedInfos[0].TradeYearMonth" width="90" label="交易年月（上月当天）">
+          <el-table-column prop="ProviderUsedInfos[0].tradeYearMonth" width="90" label="交易年月（上月当天）">
           </el-table-column>
-          <el-table-column prop="ProviderUsedInfos[0].UsedAmount" width="90" label="结算金额">
+          <el-table-column prop="ProviderUsedInfos[0].usedAmount" width="90" label="结算金额">
           </el-table-column>
-          <el-table-column prop="ProviderUsedInfos[0].Currency" label="币种">
+          <el-table-column prop="ProviderUsedInfos[0].currency" label="币种">
           </el-table-column>
         </el-table-column>
 

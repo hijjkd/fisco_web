@@ -56,35 +56,35 @@
         <el-table-column prop="customerId" label="供应商编号">
         </el-table-column>
         <el-table-column label="入库信息">
-          <el-table-column prop="usedInfos[0].TradeYearMonth" width="90" label="交易年月">
+          <el-table-column prop="usedInfos[0].tradeYearMonth" width="90" label="交易年月">
           </el-table-column>
-          <el-table-column prop="usedInfos[0].UsedAmount" width="90" label="结算金额">
+          <el-table-column prop="usedInfos[0].usedAmount" width="90" label="结算金额">
           </el-table-column>
-          <el-table-column prop="usedInfos[0].Ccy" label="币种">
+          <el-table-column prop="usedInfos[0].ccy" label="币种">
           </el-table-column>
         </el-table-column>
         <el-table-column label="结算信息">
-          <el-table-column prop="settleInfos[0].TradeYearMonth" width="90" label="交易年月">
+          <el-table-column prop="settleInfos[0].tradeYearMonth" width="90" label="交易年月">
           </el-table-column>
-          <el-table-column prop="settleInfos[0].SettleAmount" width="90" label="结算金额">
+          <el-table-column prop="settleInfos[0].settleAmount" width="90" label="结算金额">
           </el-table-column>
-          <el-table-column prop="settleInfos[0].Ccy" label="币种">
+          <el-table-column prop="settleInfos[0].ccy" label="币种">
           </el-table-column>
         </el-table-column>
         <el-table-column label="订单信息">
-          <el-table-column prop="orderInfos[0].TradeYearMonth" width="90" label="交易年月">
+          <el-table-column prop="orderInfos[0].tradeYearMonth" width="90" label="交易年月">
           </el-table-column>
-          <el-table-column prop="orderInfos[0].OrderAmount" width="90" label="结算金额">
+          <el-table-column prop="orderInfos[0].orderAmount" width="90" label="结算金额">
           </el-table-column>
-          <el-table-column prop="orderInfos[0].Ccy" label="币种">
+          <el-table-column prop="orderInfos[0].ccy" label="币种">
           </el-table-column>
         </el-table-column>
         <el-table-column label="应收账款信息">
-          <el-table-column prop="receivableInfos[0].TradeYearMonth" width="90" label="交易年月">
+          <el-table-column prop="receivableInfos[0].tradeYearMonth" width="90" label="交易年月">
           </el-table-column>
-          <el-table-column prop="receivableInfos[0].ReceivableAmount" width="90" label="结算金额">
+          <el-table-column prop="receivableInfos[0].receivableAmount" width="90" label="结算金额">
           </el-table-column>
-          <el-table-column prop="receivableInfos[0].Ccy" label="币种">
+          <el-table-column prop="receivableInfos[0].ccy" label="币种">
           </el-table-column>
         </el-table-column>
       </el-table>
@@ -154,6 +154,7 @@ export default {
      * @param {*} data 
      */
     getDecryptHistoricaltransaction(data) {
+      console.debug('liunan')
       const that = this;
       this.loading = true;
       historicaltransaction(data).then(response => {
