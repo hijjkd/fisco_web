@@ -3,21 +3,68 @@
     <div class="top">
       <el-form ref="enterPoolForm" :model="enterPoolForm">
         <el-row>
-          <el-col :span="5">
-            <el-form-item label="供应商编号" label-width="89px">
-              <el-input style="width: 95%;" v-model="enterPoolForm.id" clearable></el-input>
+          <el-col :span="6">
+            <el-form-item label="核心企业证件号" label-width="130px">
+              <el-input v-model="enterPoolForm.interCustomerId" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="开始时间" label-width="89px">
-              <el-date-picker v-model="enterPoolForm.startTime" value-format="yyyy-MM" type="month" style="width: 95%;"
+            <el-form-item label="供应商编号" label-width="130px">
+              <el-input v-model="enterPoolForm.customerId" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="拥有方" label-width="70px">
+              <el-select v-model="enterPoolForm.owner" >
+                <el-option
+                  v-for="owner in enterPoolFormSelect.owners"
+                  :key="owner.value"
+                  :label="owner.value"
+                  :value="owner.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-form-item label="币种" label-width="60px">
+              <el-select v-model="enterPoolForm.ccy" >
+                <el-option
+                  v-for="ccy in enterPoolFormSelect.ccys"
+                  :key="ccy.value"
+                  :label="ccy.value"
+                  :value="ccy.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="3">
+            <el-form-item label="排序" label-width="60px">
+              <el-select v-model="enterPoolForm.searchType" >
+                <el-option
+                  v-for="ser in enterPoolFormSelect.searchTypes"
+                  :key="ser.value"
+                  :label="ser.value"
+                  :value="ser.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="数据时点" label-width="130px">
+              <el-input v-model="enterPoolForm.dateTimePoint" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="开始时间" label-width="130px">
+              <el-date-picker v-model="enterPoolForm.startTime" value-format="yyyy-MM" type="month" style="width: 100%;"
                 placeholder="选择年月">
               </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="结束时间" label-width="89px">
-              <el-date-picker v-model="enterPoolForm.endTime" value-format="yyyy-MM" type="month" style="width: 95%;"
+            <el-form-item label="结束时间" label-width="130px">
+              <el-date-picker v-model="enterPoolForm.endTime" value-format="yyyy-MM" type="month" style="width: 100%;"
                 placeholder="选择年月">
               </el-date-picker>
             </el-form-item>
@@ -31,7 +78,7 @@
         </el-row>
       </el-form>
     </div>
-    <div class="body" v-autoTableHeight="150">
+    <div class="body" v-autoTableHeight="210">
       <el-table v-loading="loading" :data="tableData" height="100%" width="100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" fixed align="center" width="75">
@@ -84,9 +131,25 @@ export default {
   data() {
     return {
       enterPoolForm: {
-        id: "",//供应商编号
+        customerId: "",//供应商编号
+        interCustomerId:"",
         startTime: "",
-        endTime: ""
+        endTime: "",
+        dateTimePoint:'',
+        tradeYearMonth:"",
+        ccy:"",
+        owner:"",
+        searchType:"",
+        pageId:1
+      },
+      enterPoolFormSelect:{
+        ccys:[
+          {lable:'人民币',value:"人民币"},
+          {lable:'美元',value:'美元'},
+          {lable:'欧元',value:'欧元'},
+          {lable:'英镑',value:'英镑'}],
+        owners:[{lable:'甲方',value:"甲方"},{lable:'乙方',value:"乙方"}],
+        searchTypes:[{value:'升序'},{value :'降序'}]
       },
       tableData: [],
       pages: {
@@ -100,10 +163,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      const data = {
-        'id': this.enterPoolForm.id,
-        'tradeyearmonth': this.enterPoolForm.startTime + 'to' + this.enterPoolForm.endTime,
+      if(this.enterPoolForm.startTime&&this.enterPoolForm.endTime){
+        this.enterPoolForm.tradeYearMonth = this.enterPoolForm.startTime + 'to' + this.enterPoolForm.endTime;
+      }else{
+        this.enterPoolForm.tradeYearMonth = ''
       }
+      const data = this.enterPoolForm
       this.getEnterpoolDataInfos(data);
     },
     /**
@@ -111,16 +176,27 @@ export default {
  */
     resetForm(formName) {
       this.enterPoolForm = {
-        id: "",//供应商编号
+        customerId: "",//供应商编号
+        interCustomerId:"",
         startTime: "",
-        endTime: ""
+        endTime: "",
+        dateTimePoint:'',
+        tradeYearMonth:"",
+        ccy:"",
+        owner:"",
+        searchType:"",
+        pageId:1
       };
       this.getEnterpoolDataInfos()
     },
     getEnterpoolDataInfos(data) {
       const that = this;
       this.loading = true;
-      EnterpoolDataInfos(data).then(response => {
+      var dataTemp = this.enterPoolForm;
+      if(data){
+        dataTemp = data;
+      }
+      EnterpoolDataInfos(dataTemp).then(response => {
         that.loading = false;
         console.log(response)
         that.tableData = response.data.enterpoolDataList;
@@ -146,12 +222,8 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      const data = {
-        'id': this.enterPoolForm.id,
-        'tradeyearmonth': this.enterPoolForm.startTime + 'to' + this.enterPoolForm.endTime,
-        'pageid': val
-      };
-      this.getEnterpoolDataInfos(data)
+      this.enterPoolForm.pageId = val;
+      this.getEnterpoolDataInfos()
     }
   },
   mounted() {
