@@ -148,7 +148,7 @@ export default {
           {lable:'美元',value:'美元'},
           {lable:'欧元',value:'欧元'},
           {lable:'英镑',value:'英镑'}],
-        owners:[{lable:'甲方',value:"甲方"},{lable:'乙方',value:"乙方"}],
+        owners:[{lable:'保理',value:"1"},{lable:'银行',value:"0"}],
         searchTypes:[{value:'升序'},{value :'降序'}]
       },
       tableData: [],

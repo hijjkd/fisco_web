@@ -174,8 +174,8 @@ export default {
         { label: "专业发票", value: "专业发票" }
       ],
       ownerCategory: [
-        { label: "保理", value: "00" },
-        { label: "银行", value: "11" }
+        { label: "保理", value: "1" },
+        { label: "银行", value: "0" }
       ],
       pages: {
         pageSize: 10,

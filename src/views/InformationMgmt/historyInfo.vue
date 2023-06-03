@@ -156,8 +156,8 @@ export default {
         total: 0
       },
       ownerCategory: [
-        { label: "保理", value: "00" },
-        { label: "银行", value: "11" }
+        { label: "保理", value: "1" },
+        { label: "银行", value: "0" }
       ],
       loading: true
 
