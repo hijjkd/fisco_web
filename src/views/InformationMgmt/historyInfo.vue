@@ -3,40 +3,67 @@
     <div class="top">
       <el-form ref="historyForm" :model="historyForm">
         <el-row>
-          <el-col :span="8">
-            <el-form-item label="供应商编号" label-width="89px">
-              <el-input style="width: 95%;" v-model="historyForm.id_no" clearable></el-input>
+          <el-col :span="6">
+            <el-form-item label="供应商编号" label-width="130px">
+              <el-input  v-model="historyForm.id_no" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="融资意向申请编号" label-width="135px">
-              <el-input style="width: 95%;" v-model="historyForm.apply_no" clearable></el-input>
+          <el-col :span="6">
+            <el-form-item label="供应商证件号" label-width="130px">
+              <el-input  v-model="historyForm.certificateId" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="供应商名称" label-width="130px">
+              <el-input  v-model="historyForm.corpName" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <el-form-item label="开始时间" label-width="89px">
-              <el-date-picker v-model="historyForm.startTime" value-format="yyyy-MM" type="month" style="width: 95%;"
+          <el-col :span="6">
+            <el-form-item label="核心企业证件号" label-width="130px">
+              <el-input v-model="historyForm.interCustomerId" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="融资意向申请编号" label-width="130px">
+              <el-input  v-model="historyForm.apply_no" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="拥有方" label-width="130px">
+              <el-select  v-model="historyForm.owner" placeholder="拥有方" style="width: 100%">
+                <el-option v-for="(item, index) in ownerCategory" :key="index" :label="item.label"
+                  :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="开始时间" label-width="130px">
+              <el-date-picker v-model="historyForm.startTime" value-format="yyyy-MM" type="month" style="width: 100%"
                 placeholder="选择年月">
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="结束时间" label-width="89px">
-              <el-date-picker v-model="historyForm.endTime" value-format="yyyy-MM" type="month" style="width: 95%;"
+          <el-col :span="6">
+            <el-form-item label="结束时间" label-width="130px">
+              <el-date-picker v-model="historyForm.endTime" value-format="yyyy-MM" type="month" style="width: 100%"
                 placeholder="选择年月">
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6" style="display: block;text-align: left;padding-left: 15px;">
-            <el-button type="primary" @click="onSubmit">搜索</el-button>
-            <el-button type="default" @click="resetForm">重置</el-button>
+          <el-col :span="12" >
+            <el-form-item label-width="130px">
+              <el-button type="primary" @click="onSubmit">搜索</el-button>
+              <el-button type="default" @click="resetForm">重置</el-button>
+            </el-form-item>
           </el-col>
         </el-row>
       </el-form>
     </div>
-    <div class="body" v-autoTableHeight="190">
+    <div class="body" v-autoTableHeight="255">
       <el-table v-loading="loading" :data="tableData" height="100%" width="100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" fixed align="center" width="75">
@@ -87,6 +114,8 @@
           <el-table-column prop="receivableInfos[0].ccy" label="币种">
           </el-table-column>
         </el-table-column>
+        <el-table-column prop="owner" label="拥有方" fixed width="100">
+        </el-table-column>
       </el-table>
     </div>
     <div class="footer">
@@ -109,9 +138,16 @@ export default {
     return {
       historyForm: {
         id_no: "",//供应商编号
+        certificateId: "",//供应商证件号码
+        corpName:"",//供应商名称
+
+        interCustomerId:"",//核心企业证件号
         apply_no: "",//融资意向申请编号
+        owner: "",//拥有方
+        tradeyearmonth: "",//
         startTime: "",
-        endTime: ""
+        endTime: "",
+        pageId:1
       },
       tableData: [],
       pages: {
@@ -119,6 +155,10 @@ export default {
         currentPage: 1,
         total: 0
       },
+      ownerCategory: [
+        { label: "保理", value: "00" },
+        { label: "银行", value: "11" }
+      ],
       loading: true
 
     }
@@ -128,11 +168,21 @@ export default {
      * 搜索按钮
      */
     onSubmit() {
-      const data = {
-        'id': this.historyForm.id_no,
-        'financeid': this.historyForm.apply_no,
-        'tradeyearmonth': this.historyForm.startTime + 'to' + this.historyForm.endTime,
+      // const data = {
+      //   'id': this.historyForm.id_no,
+      //   'financeid': this.historyForm.apply_no,
+      //   'certificateId': this.historyForm.certificateId,//供应商证件号码
+      //   'corpName':this.historyForm.corpName,//供应商名称
+      //   'interCustomerId':this.historyForm.interCustomerId,//核心企业证件号
+      //   'apply_no': this.historyForm.apply_no,//融资意向申请编号
+      //   'owner': this.historyForm.owner,//拥有方
+      //   'tradeyearmonth': this.historyForm.startTime + 'to' + this.historyForm.endTime,
+      // }
+
+      if(this.historyForm.startTime&&this.historyForm.endTime){
+        this.historyForm.tradeyearmonth = this.historyForm.startTime + 'to' + this.historyForm.endTime;
       }
+      const data = this.historyForm;
       this.getDecryptHistoricaltransaction(data);
     },
 
@@ -142,7 +192,13 @@ export default {
     resetForm(formName) {
       this.historyForm = {
         id_no: "",//供应商编号
+        certificateId: "",//供应商证件号码
+        corpName:"",//供应商名称
+
+        interCustomerId:"",//核心企业证件号
         apply_no: "",//融资意向申请编号
+        owner: "",//拥有方
+ 
         startTime: "",
         endTime: ""
       };
@@ -182,14 +238,8 @@ export default {
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      console.log(this.historyForm);
-      const data = {
-        'id': this.historyForm.id_no,
-        'financeid': this.historyForm.apply_no,
-        'tradeyearmonth': this.historyForm.startTime + 'to' + this.historyForm.endTime,
-        'pageid': val
-      };
+      this.historyForm.pageId = val;
+      const data = this.historyForm; 
       this.getDecryptHistoricaltransaction(data)
     }
   },
