@@ -50,7 +50,7 @@
                         </template>
 
                         <el-menu-item v-for="term in item.children" :key="term.path" :index="term.path" v-if="term.menuShow" style="padding-left: 58px" :style="{
-                                    'color': term.path == activeRoute ? '#1f83e7':'',
+                                    'color': term.path == activeRoute ? '#1f83e7':'rgb(157, 162, 171)',
                                     'border-left':term.path == activeRoute ? '3px solid #1f83e7': '',
                                     'padding-left':term.path == activeRoute ? '55px': '58px',
                                     'background-color':term.path == activeRoute ? '#1e293e': '#242e42',}">
@@ -63,7 +63,12 @@
                         <i :class="item.iconCls"></i>
                         <span slot="title">{{item.children[0].name}}</span>
                     </el-menu-item>
+                  <el-menu-item v-if="index == routesListC.length - 1" @click="logOut"  style="padding-left: 33px;color:rgb(157, 162, 171) !important;" >
+                    <i class="wbs-icon-logout sidebar-icon"></i>
+                    <span slot="title">退出系统</span>
+                  </el-menu-item>
                 </template>
+
             </el-menu>
         </div>
     </div>
@@ -253,6 +258,18 @@ export default {
             Bus.$emit("changeGroup", this.group);
             this.getClientVersion();
         },
+      logOut(){
+
+        this.$confirm('您确定要退出当前用户吗？', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'error'
+        }).then(() => {
+          //在此操作删除cookie及用户信息
+          localStorage.removeItem("access_token")
+          this.$router.push('login')
+        })
+      },
         getClientVersion() {
             queryClientVersion(this.group)
                 .then(res => {

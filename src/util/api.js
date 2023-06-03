@@ -70,7 +70,7 @@ export function FinancingIntentionInfo(data,list) {
     url: `${ASL_UNIVERSAL}decryptFinancingIntention`,
     method: "get",
     params: data,
-    headers :list,
+    //headers: arguments[1] ? list:'',
     headers: {
       Authorization: localStorage.getItem("access_token") || ""
     }
