@@ -62,11 +62,15 @@ Vue.prototype.getCookie = getCookie;
 Vue.prototype.setCookie = setCookie;
 Vue.prototype.delCookie = delCookie;
 
+//导入角色
+import roles from './util/roles.js';
+Vue.roles = roles;
 //导入自定义指令
 import directives from './util/directives.js';
 Object.keys(directives).forEach((key,value)=>{
   Vue.directive(key,directives[key])
 })
+
 //error code
 Vue.prototype.$chooseLang = chooseLang;
 // lodash

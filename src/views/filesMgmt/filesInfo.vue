@@ -9,7 +9,7 @@
       </el-col>
     </el-row>
 
-    <el-row class="parent">
+    <el-row class="parent" v-roleLimit="'admin,use'">
       <div class="child" v-show="processes.startProcess">
         <el-row style="margin-top: 50px">
           <el-col :span="12" :offset="6" >
@@ -141,6 +141,7 @@ export default {
   methods: {
     createProcess(){
       this.processShow("nextProcess");
+      //调用接口，查看ID是否存在，若存在则进行查询否则进行创建。
       if(this.form.id){
         this.form.items.push({
           key:"nextProcess",

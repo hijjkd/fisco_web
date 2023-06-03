@@ -1,21 +1,26 @@
 <template>
   <div>
     <div class="top">
-      <el-form ref="invoiceForm" :model="invoiceForm" label-width="90px">
+      <el-form ref="invoiceForm" :model="invoiceForm">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="供应商编号">
-              <el-input style="width:85%;" v-model="invoiceForm.id" clearable></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="核心企业证件号">
-              <el-input style="width:80%;" v-model="invoiceForm.interCustomerId" clearable></el-input>
+            <el-form-item label="供应商编号" label-width="130px">
+              <el-input v-model="invoiceForm.customerId" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="拥有方">
-              <el-select style="width: 60%;" v-model="invoiceForm.owner" placeholder="拥有方">
+            <el-form-item label="核心企业证件号" label-width="130px">
+              <el-input v-model="invoiceForm.interCustomerId" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="发票号码" label-width="130px">
+              <el-input  v-model="invoiceForm.invoiceNum" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="拥有方" label-width="130px">
+              <el-select  v-model="invoiceForm.owner" placeholder="拥有方" style="width: 100%">
                 <el-option v-for="(item, index) in ownerCategory" :key="index" :label="item.label"
                   :value="item.value"></el-option>
               </el-select>
@@ -23,24 +28,19 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="5">
-            <el-form-item label="发票号码">
-              <el-input style="width:85%;" v-model="invoiceForm.invoiceNum" clearable></el-input>
+          <el-col :span="6">
+            <el-form-item label="发票代码" label-width="130px">
+              <el-input v-model="invoiceForm.invoiceCode" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
-            <el-form-item label="发票代码">
-              <el-input style="width:85%;" v-model="invoiceForm.invoiceCode" clearable></el-input>
+          <el-col :span="6">
+            <el-form-item label="发票校验码" label-width="130px">
+              <el-input  v-model="invoiceForm.checkCode" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
-            <el-form-item label="发票校验码">
-              <el-input style="width:85%;" v-model="invoiceForm.checkCode" clearable></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="发票类型">
-              <el-select style="width: 95%;" v-model="invoiceForm.invoiceType" placeholder="发票类型">
+          <el-col :span="6">
+            <el-form-item label="发票类型" label-width="130px">
+              <el-select v-model="invoiceForm.invoiceType" placeholder="发票类型" style="width: 100%">
                 <el-option v-for="(item, index) in invoiceCategory" :key="index" :label="item.label"
                   :value="item.value"></el-option>
               </el-select>
@@ -48,28 +48,30 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <el-form-item label="开始时间">
-              <el-date-picker v-model="invoiceForm.startTime" value-format="yyyy-MM" type="month" style="width: 95%;"
+          <el-col :span="6">
+            <el-form-item label="开始时间" label-width="130px">
+              <el-date-picker v-model="invoiceForm.startTime" value-format="yyyy-MM" type="month" style="width: 100%"
                 placeholder="选择年月">
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="结束时间">
-              <el-date-picker v-model="invoiceForm.endTime" value-format="yyyy-MM" type="month" style="width: 95%;"
+          <el-col :span="6">
+            <el-form-item label="结束时间" label-width="130px">
+              <el-date-picker v-model="invoiceForm.endTime" value-format="yyyy-MM" type="month" style="width: 100%"
                 placeholder="选择年月">
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6" style="display: block;text-align: left;padding-left: 15px;">
-            <el-button type="primary" @click="onSubmit">搜索</el-button>
-            <el-button type="default" @click="resetForm">重置</el-button>
+          <el-col :span="12" >
+            <el-form-item label-width="130px">
+              <el-button type="primary" @click="onSubmit">搜索</el-button>
+              <el-button type="default" @click="resetForm">重置</el-button>
+            </el-form-item>
           </el-col>
         </el-row>
       </el-form>
     </div>
-    <div class='body' v-autoTableHeight="190">
+    <div class='body' v-autoTableHeight="255">
       <el-table v-loading="loading" :data="InvoiceInfo" style="width: 100%" height="100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" fixed align="center" width="75">
@@ -152,18 +154,20 @@ export default {
     return {
       InvoiceInfo: [],
       invoiceForm: {
-        id: "",//供应商编号
+        customerId: "",//供应商编号
         interCustomerId:"",//核心企业号
         checkCode:"",//发票校验码
         owner:"",//拥有方
         invoiceNum: "",//发票号码
         invoiceType: "",//发票类型
         invoiceCode:"",//发票代码
+        invoiceDate:'',
         /**
          * 查询发票的起止时间，拼接为date以to分割。
          */
         startTime: "",
-        endTime: ""
+        endTime: "",
+        pageId:1
       },
       invoiceCategory: [
         { label: "普通发票", value: "普通发票" },
@@ -200,9 +204,9 @@ export default {
     //     });
     //   }
     // },
-    handleSelectionChange(val) {
+    /*handleSelectionChange(val) {
       this.multipleSelection = val;
-    },
+    },*/
 
     getInvoiceInformation(data) {
       const that = this;
@@ -220,22 +224,29 @@ export default {
     //重置搜索选项
     resetForm(formName) {
       this.invoiceForm = {
-        id: "",
-        invoiceNum: "",
-        invoiceType: "",
+        customerId: "",//供应商编号
+        interCustomerId:"",//核心企业号
+        checkCode:"",//发票校验码
+        owner:"",//拥有方
+        invoiceNum: "",//发票号码
+        invoiceType: "",//发票类型
+        invoiceCode:"",//发票代码
+        invoiceDate:'',
+        /**
+         * 查询发票的起止时间，拼接为date以to分割。
+         */
         startTime: "",
-        endTime: ""
+        endTime: "",
+        pageId:1
       };
       this.getInvoiceInformation()
     },
 
     onSubmit() {
-      const data = {
-        'id': this.invoiceForm.id,
-        'invoiceNum': this.invoiceForm.invoiceNum,
-        'invoiceType': this.invoiceForm.invoiceType,
-        'time': this.invoiceForm.startTime + 'to' + this.invoiceForm.endTime,
+      if(this.invoiceForm.startTime&&this.invoiceForm.endTime){
+        this.invoiceForm.invoiceDate = this.invoiceForm.startTime + 'to' + this.invoiceForm.endTime;
       }
+      const data = this.invoiceForm;
       this.getInvoiceInformation(data);
     },
 
@@ -257,13 +268,14 @@ export default {
 
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      const data = {
+      this.invoiceForm.pageId = val;
+      const data = this.invoiceForm; /*{
         'id': this.invoiceForm.id,
         'invoiceNum': this.invoiceForm.invoiceNum,
         'invoiceType': this.invoiceForm.invoiceType,
         'time': this.invoiceForm.startTime + 'to' + this.invoiceForm.endTime,
         "pageid": val,
-      }
+      }*/
       this.getInvoiceInformation(data);
     }
   },
