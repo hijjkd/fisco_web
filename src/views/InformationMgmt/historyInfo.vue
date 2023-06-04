@@ -179,8 +179,10 @@ export default {
       //   'tradeyearmonth': this.historyForm.startTime + 'to' + this.historyForm.endTime,
       // }
 
-      if(this.historyForm.startTime&&this.historyForm.endTime){
+      if(this.historyForm.startTime||this.historyForm.endTime){
         this.historyForm.tradeyearmonth = this.historyForm.startTime + 'to' + this.historyForm.endTime;
+      }else{
+        this.historyForm.tradeyearmonth= ""
       }
       const data = this.historyForm;
       this.getDecryptHistoricaltransaction(data);

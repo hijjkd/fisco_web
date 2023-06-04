@@ -163,7 +163,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      if(this.enterPoolForm.startTime&&this.enterPoolForm.endTime){
+      if(this.enterPoolForm.startTime||this.enterPoolForm.endTime){
         this.enterPoolForm.tradeYearMonth = this.enterPoolForm.startTime + 'to' + this.enterPoolForm.endTime;
       }else{
         this.enterPoolForm.tradeYearMonth = ''

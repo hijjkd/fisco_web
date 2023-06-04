@@ -243,7 +243,7 @@ export default {
     },
 
     onSubmit() {
-      if(this.invoiceForm.startTime&&this.invoiceForm.endTime){
+      if(this.invoiceForm.startTime||this.invoiceForm.endTime){
         this.invoiceForm.invoiceDate = this.invoiceForm.startTime + 'to' + this.invoiceForm.endTime;
       }else{
         this.invoiceForm.invoiceDate = "";
