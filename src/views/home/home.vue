@@ -1,6 +1,6 @@
 <template>
-  <div class="over-view-wrapper">
-    <div style="margin: 0 20px 20px 0">
+  <div class="over-view-wrapper qqqqq" v-autoTableHeight="180">
+    <div style="margin: 0 20px 20px 0" >
       <el-row class="module-box-shadow">
         <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
           <div class="overview-number block-bg" @click="handleLink">
@@ -89,7 +89,7 @@
         </el-col> -->
       </el-row>
     </div>
-    <div class="module-wrapper-small" style="padding: 30px 31px 26px 32px">
+    <div class="module-wrapper-small" style="padding: 30px 31px 26px 32px" >
       <el-input
         :placeholder="$t('placeholder.globalSearch')"
         v-model.trim="keyword"
@@ -204,8 +204,8 @@
         </el-table-column>
       </el-table>
     </div> -->
-    <div style="min-width: 540px; margin: 8px 8px 0px 9px">
-      <el-row :gutter="16">
+    <div style="min-width: 540px; margin: 8px 8px 0px 9px"  v-autoTableHeight="295">
+      <el-row :gutter="16" style="height: 100%;overflow-y: auto" >
         <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
           <div class="overview-wrapper">
             <p>
@@ -766,7 +766,7 @@ removeDuplicate(arr) {
 
         // 搜索按钮逻辑
         search() {
-          
+
             let searchKey = this.keyword
             var arr = Number(searchKey).toString(16);
             var sum = "0x" + arr;

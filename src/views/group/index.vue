@@ -2,8 +2,8 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="search-table">
-        <el-table
+      <div class="search-table" v-autoTableHeight="150">
+        <el-table max-height="100%"
           :data="nodeData"
           class="search-table-content"
           v-loading="loading"
