@@ -5,10 +5,10 @@ import Vue from 'vue'
 export default {
   autoTableHeight:function(el,binding){
     var h = document.body.clientHeight;
-    el.style.height = (h - binding.value) + "px";
+    el.style.height = (h - binding.value - 61) + "px";
     window.addEventListener("resize",function(){
       h = document.body.clientHeight;
-      el.style.height = (h - binding.value) + "px";
+      el.style.height = (h - binding.value - 61) + "px";
     })
   },
   roleLimit:function(el,binding){

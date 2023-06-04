@@ -103,11 +103,11 @@
           </el-table-column>
         </el-table-column>
         <el-table-column label="入库信息">
-          <el-table-column prop="providerUsedInfos[0].tradeYearMonth" width="90" label="交易年月（上月当天）">
+          <el-table-column prop="ProviderUsedInfos[0].tradeYearMonth" width="90" label="交易年月（上月当天）">
           </el-table-column>
-          <el-table-column prop="providerUsedInfos[0].usedAmount" width="90" label="结算金额">
+          <el-table-column prop="ProviderUsedInfos[0].usedAmount" width="90" label="结算金额">
           </el-table-column>
-          <el-table-column prop="providerUsedInfos[0].currency" label="币种">
+          <el-table-column prop="ProviderUsedInfos[0].currency" label="币种">
           </el-table-column>
         </el-table-column>
 
@@ -198,7 +198,7 @@ export default {
       }
       EnterpoolDataInfos(dataTemp).then(response => {
         that.loading = false;
-        console.log(response)
+        //console.log(response)
         that.tableData = response.data.enterpoolDataList;
         that.pages.total = response.data.totalcount;
       }, error => {
@@ -227,7 +227,7 @@ export default {
     }
   },
   mounted() {
-    this.getEnterpoolDataInfos();
+    this.getEnterpoolDataInfos({});
   },
   handleData(data) {
     if (!data) {

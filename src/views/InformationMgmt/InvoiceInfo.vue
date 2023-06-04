@@ -213,7 +213,7 @@ export default {
       this.loading = true;
       InvoiceInformation(data).then(response => {
         that.loading = false;
-        console.log(response)
+        //console.log(response)
         that.InvoiceInfo = response.data.invoiceInformationList;
         that.pages.total = response.data.totalcount;
       }, error => {
@@ -269,15 +269,8 @@ export default {
     },
 
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       this.invoiceForm.pageId = val;
-      const data = this.invoiceForm; /*{
-        'id': this.invoiceForm.id,
-        'invoiceNum': this.invoiceForm.invoiceNum,
-        'invoiceType': this.invoiceForm.invoiceType,
-        'time': this.invoiceForm.startTime + 'to' + this.invoiceForm.endTime,
-        "pageid": val,
-      }*/
+      const data = this.invoiceForm;
       this.getInvoiceInformation(data);
     }
   },

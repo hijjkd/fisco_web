@@ -18,7 +18,7 @@
 
     <div class="login">
       <div>
-        <img 
+        <img
         style="
             width: 142px;
             height: 142px;
@@ -197,12 +197,13 @@ export default {
         .then((res) => {
           if (res.data.code  == "") {
             localStorage.setItem("access_token", res.data.result);
+            localStorage.setItem("userName", reqData.username);
             this.logining = false;
             this.$router.push({
                           path: "/home",
                         });
           } else {
-            
+
             // this.msgErrorContent = this.$chooseLang(res.data.code);
             this.msgError = true;
             this.loginForm.password = "";

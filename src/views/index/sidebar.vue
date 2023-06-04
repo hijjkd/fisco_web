@@ -63,10 +63,7 @@
                         <i :class="item.iconCls"></i>
                         <span slot="title">{{item.children[0].name}}</span>
                     </el-menu-item>
-                  <el-menu-item v-if="index == routesListC.length - 1" @click="logOut"  style="padding-left: 33px;color:rgb(157, 162, 171) !important;" >
-                    <i class="wbs-icon-logout sidebar-icon"></i>
-                    <span slot="title">退出系统</span>
-                  </el-menu-item>
+
                 </template>
 
             </el-menu>
@@ -258,18 +255,6 @@ export default {
             Bus.$emit("changeGroup", this.group);
             this.getClientVersion();
         },
-      logOut(){
-
-        this.$confirm('您确定要退出当前用户吗？', '警告', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'error'
-        }).then(() => {
-          //在此操作删除cookie及用户信息
-          localStorage.removeItem("access_token")
-          this.$router.push('login')
-        })
-      },
         getClientVersion() {
             queryClientVersion(this.group)
                 .then(res => {

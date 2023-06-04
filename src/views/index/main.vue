@@ -40,6 +40,7 @@
             <v-menu @sidebarChange="change($event)" :minMenu="show"></v-menu>
         </div>
         <div class="view-wrapper" :class="{'view-show': menuShow,'view-hide': menuHide}">
+            <header-bar></header-bar>
             <router-view></router-view>
         </div>
     </div>
@@ -47,6 +48,7 @@
 
 <script>
 import sidebar from "./sidebar";
+import headerBar from "../headerBar/header"
 import { resetPassword, addnodes, encryption } from "@/util/api";
 import router from "@/router";
 const sha256 = require("js-sha256").sha256;
@@ -54,7 +56,8 @@ import errcode from "@/util/errcode";
 export default {
     name: "mains",
     components: {
-        "v-menu": sidebar
+        "v-menu": sidebar,
+        headerBar
     },
     data: function () {
         // if (sessionStorage.getItem("reload") == 1) {

@@ -36,8 +36,8 @@ permissions and * limitations under the License. */
           </el-input>
         </div>
       </div>
-      <div class="search-table">
-        <el-table
+      <div class="search-table" v-autoTableHeight="160">
+        <el-table style="width: 100%" height="100%"
           :data="
             blockData.slice(
               (currentPage - 1) * pageSize,
@@ -175,7 +175,7 @@ export default {
     },
     // 格式化copyHash
     filtersTransactionHash:(item)=> {
-  
+
       return   item.sealerList[eval(item.sealer).toString(16)];
     },
     // 格式化日期
@@ -219,9 +219,9 @@ export default {
         const arr = res.data.blocks;
         for (var i = 0; i < arr.length; i++) {
           if (arr) {
-      
-            
-           
+
+
+
 
           }
         }
