@@ -4,22 +4,23 @@
       <el-form ref="enterPoolForm" :model="enterPoolForm">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="核心企业证件号" label-width="130px">
-              <el-input v-model="enterPoolForm.interCustomerId" clearable></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
             <el-form-item label="供应商编号" label-width="130px">
               <el-input v-model="enterPoolForm.customerId" clearable></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="6">
+            <el-form-item label="核心企业证件号" label-width="130px">
+              <el-input v-model="enterPoolForm.interCustomerId" clearable></el-input>
+            </el-form-item>
+          </el-col>
+         
           <el-col :span="5">
             <el-form-item label="拥有方" label-width="70px">
               <el-select v-model="enterPoolForm.owner" >
                 <el-option
                   v-for="owner in enterPoolFormSelect.owners"
-                  :key="owner.value"
-                  :label="owner.value"
+                  :key="owner.lable"
+                  :label="owner.lable"
                   :value="owner.value">
                 </el-option>
               </el-select>

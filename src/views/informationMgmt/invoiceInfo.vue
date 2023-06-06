@@ -50,14 +50,14 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="开始时间" label-width="130px">
-              <el-date-picker v-model="invoiceForm.startTime" value-format="yyyy-MM" type="month" style="width: 100%"
+              <el-date-picker v-model="invoiceForm.startTime" value-format="yyyy-MM-dd" type="date" style="width: 100%"
                 placeholder="选择年月">
               </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="结束时间" label-width="130px">
-              <el-date-picker v-model="invoiceForm.endTime" value-format="yyyy-MM" type="month" style="width: 100%"
+              <el-date-picker v-model="invoiceForm.endTime" value-format="yyyy-MM-dd" type="date" style="width: 100%"
                 placeholder="选择年月">
               </el-date-picker>
             </el-form-item>
@@ -79,6 +79,8 @@
         <el-table-column fixed prop="certificateId" label="供应商证件号码" width="150">
         </el-table-column>
         <el-table-column fixed prop="customerId" label="供应商编号" width="120">
+        </el-table-column>
+        <el-table-column fixed prop="owner" label="数据所属机构" width="120">
         </el-table-column>
         <el-table-column prop="corpName" label="供应商名称" width="120">
         </el-table-column>
@@ -281,3 +283,18 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.top {
+  padding: 10px;
+  padding-top: 25px;
+}
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+    background-color: transparent;
+}
+.footer {
+  margin-top: 5px;
+}
+</style>

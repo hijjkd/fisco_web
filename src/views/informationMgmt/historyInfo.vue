@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="供应商编号" label-width="130px">
-              <el-input  v-model="historyForm.id_no" clearable></el-input>
+              <el-input  v-model="historyForm.customerId" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -137,7 +137,7 @@ export default {
   data() {
     return {
       historyForm: {
-        id_no: "",//供应商编号
+        customerId: "",//供应商编号
         certificateId: "",//供应商证件号码
         corpName:"",//供应商名称
 
@@ -193,12 +193,12 @@ export default {
      */
     resetForm(formName) {
       this.historyForm = {
-        id_no: "",//供应商编号
+        customerId: "",//供应商编号
         certificateId: "",//供应商证件号码
         corpName:"",//供应商名称
 
         interCustomerId:"",//核心企业证件号
-        apply_no: "",//融资意向申请编号
+        financeId: "",//融资意向申请编号
         owner: "",//拥有方
  
         startTime: "",
