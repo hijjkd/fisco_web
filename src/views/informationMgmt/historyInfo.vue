@@ -27,7 +27,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="融资意向申请编号" label-width="130px">
-              <el-input  v-model="historyForm.apply_no" clearable></el-input>
+              <el-input  v-model="historyForm.financeId" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -142,9 +142,9 @@ export default {
         corpName:"",//供应商名称
 
         interCustomerId:"",//核心企业证件号
-        apply_no: "",//融资意向申请编号
+        financeId: "",//融资意向申请编号
         owner: "",//拥有方
-        tradeyearmonth: "",//
+        tradeYearMonth: "",//
         startTime: "",
         endTime: "",
         pageId:1
@@ -178,11 +178,11 @@ export default {
       //   'owner': this.historyForm.owner,//拥有方
       //   'tradeyearmonth': this.historyForm.startTime + 'to' + this.historyForm.endTime,
       // }
-
+      console.debug('liunan')
       if(this.historyForm.startTime||this.historyForm.endTime){
-        this.historyForm.tradeyearmonth = this.historyForm.startTime + 'to' + this.historyForm.endTime;
+        this.historyForm.tradeYearMonth = this.historyForm.startTime + 'to' + this.historyForm.endTime;
       }else{
-        this.historyForm.tradeyearmonth= ""
+        this.historyForm.tradeYearMonth= ""
       }
       const data = this.historyForm;
       this.getDecryptHistoricaltransaction(data);
