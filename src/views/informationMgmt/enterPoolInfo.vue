@@ -39,18 +39,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="3">
-            <el-form-item label="排序" label-width="60px">
-              <el-select v-model="enterPoolForm.searchType" >
-                <el-option
-                  v-for="ser in enterPoolFormSelect.searchTypes"
-                  :key="ser.value"
-                  :label="ser.value"
-                  :value="ser.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+  
           <el-col :span="6">
             <el-form-item label="数据时点" label-width="130px">
               <el-input v-model="enterPoolForm.dateTimePoint" clearable></el-input>
@@ -83,6 +72,8 @@
       <el-table v-loading="loading" :data="tableData" height="100%" width="100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" fixed align="center" width="75">
+        </el-table-column>
+        <el-table-column fixed prop="owner" label="数据所属机构" width="120">
         </el-table-column>
         <el-table-column prop="dateTimePoint" label="数据时点" fixed width="100">
         </el-table-column>
@@ -150,7 +141,6 @@ export default {
           {lable:'欧元',value:'欧元'},
           {lable:'英镑',value:'英镑'}],
         owners:[{lable:'保理',value:"1"},{lable:'银行',value:"0"}],
-        searchTypes:[{value:'升序'},{value :'降序'}]
       },
       tableData: [],
       pages: {
@@ -185,7 +175,6 @@ export default {
         tradeYearMonth:"",
         ccy:"",
         owner:"",
-        searchType:"",
         pageId:1
       };
       this.getEnterpoolDataInfos()
