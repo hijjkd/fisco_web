@@ -84,7 +84,7 @@
         </el-table-column>
         <el-table-column prop="corpName" label="供应商名称" width="120">
         </el-table-column>
-        <el-table-column prop="certificateType" label="供应商证件类型" width="120">
+        <el-table-column prop="certificateType" label="供应商证件类型" width="120" :filters="filters" :filter-method="filterType">
         </el-table-column>
         <el-table-column prop="interCustomerId" label="核心企业的证件号" width="120">
         </el-table-column>
@@ -187,6 +187,14 @@ export default {
       loading: true
     };
   },
+
+  filters: {
+    filterType :(value)=> {
+      return "Block";
+    },
+   
+  },
+
   methods: {
     // getInvoiceInformation(data) {
     //   if (data) {
