@@ -188,12 +188,7 @@ export default {
     };
   },
 
-  filters: {
-    filterType :(value)=> {
-      return "Block";
-    },
-   
-  },
+
 
   methods: {
     // getInvoiceInformation(data) {
@@ -259,6 +254,7 @@ export default {
         this.invoiceForm.invoiceDate = "";
       }
       const data = this.invoiceForm;
+      data.pageId=1;
       this.getInvoiceInformation(data);
     },
 
@@ -284,7 +280,13 @@ export default {
       this.getInvoiceInformation(data);
     }
   },
-
+  filters: {
+    filterType :(value)=> {
+      console.log(value);
+      return "Block";
+    },
+   
+  },
   mounted() {
     this.getInvoiceInformation();
   },

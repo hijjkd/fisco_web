@@ -185,6 +185,7 @@ export default {
         this.historyForm.tradeYearMonth= ""
       }
       const data = this.historyForm;
+      data.pageId=1; //fix 有搜索结果点击页码时，按钮时pageId不变
       this.getDecryptHistoricaltransaction(data);
     },
 

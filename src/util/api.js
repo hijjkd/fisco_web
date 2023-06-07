@@ -26,9 +26,11 @@ if (process.env.NODE_ENV === "development") {
   HANDLE = "/api/asl/universal/handle/";
   ASL_UNIVERSAL = "/request/asl/universal/";
 } else {
-  远程云服务器
-  HANDLE = 'http://101.43.251.145:8440/asl/universal/handle/';
-  ASL_UNIVERSAL="http://101.43.251.145:8440/asl/universal/";
+  //远程云服务器
+  ip="http://101.43.251.145:8440";
+  HANDLE1 =ip+ "/api/";
+  HANDLE = ip+'/asl/universal/handle/';
+  ASL_UNIVERSAL=ip+"/asl/universal/";
   //本地服务器
   // HANDLE = 'http://101.43.251.145:8440/asl/universal/handle/';
   // ASL_UNIVERSAL = "http://101.43.251.145:8440/asl/universal/";

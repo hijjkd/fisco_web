@@ -153,15 +153,21 @@ export default {
     }
   },
   methods: {
+    /*
+    搜索按钮
+    */
     onSubmit() {
       if(this.enterPoolForm.startTime||this.enterPoolForm.endTime){
         this.enterPoolForm.tradeYearMonth = this.enterPoolForm.startTime + 'to' + this.enterPoolForm.endTime;
       }else{
         this.enterPoolForm.tradeYearMonth = ''
       }
-      const data = this.enterPoolForm
+      const data = this.enterPoolForm;
+      data.pageId=1;
       this.getEnterpoolDataInfos(data);
     },
+
+
     /**
  * 重置按钮
  */
