@@ -80,12 +80,18 @@
         </el-table-column>
         <el-table-column fixed prop="customerId" label="供应商编号" width="120">
         </el-table-column>
-        <el-table-column fixed prop="owner" label="数据所属机构" width="120">
+        <el-table-column fixed prop="owner" label="拥有方" width="120">
+          <template slot-scope="scope">
+                <span>{{ scope.row['owner'] | ownerChange }}</span>
+              </template>
         </el-table-column>
         <el-table-column prop="corpName" label="供应商名称" width="120">
         </el-table-column>
         <el-table-column prop="certificateType" label="供应商证件类型" width="120">
-        </el-table-column>
+              <template slot-scope="scope">
+                <span>{{ scope.row['certificateType'] | certificateTypeChange }}</span>
+              </template>
+            </el-table-column>
         <el-table-column prop="interCustomerId" label="核心企业的证件号" width="120">
         </el-table-column>
         <el-table-column prop="invoiceNotaxAmt" label="发票不含税金额（专票）" width="170">
@@ -187,8 +193,6 @@ export default {
       loading: true
     };
   },
-
-
 
   methods: {
     // getInvoiceInformation(data) {

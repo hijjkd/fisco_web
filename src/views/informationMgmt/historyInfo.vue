@@ -5,17 +5,17 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="供应商编号" label-width="130px">
-              <el-input  v-model="historyForm.customerId" clearable></el-input>
+              <el-input v-model="historyForm.customerId" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="供应商证件号" label-width="130px">
-              <el-input  v-model="historyForm.certificateId" clearable></el-input>
+              <el-input v-model="historyForm.certificateId" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="供应商名称" label-width="130px">
-              <el-input  v-model="historyForm.corpName" clearable></el-input>
+              <el-input v-model="historyForm.corpName" clearable></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -27,12 +27,12 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="融资意向申请编号" label-width="130px">
-              <el-input  v-model="historyForm.financeId" clearable></el-input>
+              <el-input v-model="historyForm.financeId" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="拥有方" label-width="130px">
-              <el-select  v-model="historyForm.owner" placeholder="拥有方" style="width: 100%">
+              <el-select v-model="historyForm.owner" placeholder="拥有方" style="width: 100%">
                 <el-option v-for="(item, index) in ownerCategory" :key="index" :label="item.label"
                   :value="item.value"></el-option>
               </el-select>
@@ -54,7 +54,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="12" >
+          <el-col :span="12">
             <el-form-item label-width="130px">
               <el-button type="primary" @click="onSubmit">搜索</el-button>
               <el-button type="default" @click="resetForm">重置</el-button>
@@ -71,6 +71,10 @@
         <el-table-column prop="customerGrade" label="供应商评级" fixed width="100">
         </el-table-column>
         <el-table-column prop="certificateType" label="供应商证件类型" fixed width="110">
+          <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row["certificateType"] | certificateTypeChange }}</span>
+            </template>
         </el-table-column>
         <el-table-column prop="interCustomerId" label="核心企业证件号">
         </el-table-column>
@@ -88,6 +92,10 @@
           <el-table-column prop="usedInfos[0].usedAmount" width="90" label="结算金额">
           </el-table-column>
           <el-table-column prop="usedInfos[0].ccy" label="币种">
+            <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row.usedInfos[0].ccy | moneyDecode }}</span>
+            </template>
           </el-table-column>
         </el-table-column>
         <el-table-column label="结算信息">
@@ -96,6 +104,10 @@
           <el-table-column prop="settleInfos[0].settleAmount" width="90" label="结算金额">
           </el-table-column>
           <el-table-column prop="settleInfos[0].ccy" label="币种">
+            <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row.settleInfos[0].ccy | moneyDecode }}</span>
+            </template>
           </el-table-column>
         </el-table-column>
         <el-table-column label="订单信息">
@@ -104,6 +116,10 @@
           <el-table-column prop="orderInfos[0].orderAmount" width="90" label="结算金额">
           </el-table-column>
           <el-table-column prop="orderInfos[0].ccy" label="币种">
+            <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row.orderInfos[0].ccy | moneyDecode }}</span>
+            </template>
           </el-table-column>
         </el-table-column>
         <el-table-column label="应收账款信息">
@@ -112,9 +128,17 @@
           <el-table-column prop="receivableInfos[0].receivableAmount" width="90" label="结算金额">
           </el-table-column>
           <el-table-column prop="receivableInfos[0].ccy" label="币种">
+            <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row.receivableInfos[0].ccy | moneyDecode }}</span>
+            </template>
           </el-table-column>
         </el-table-column>
         <el-table-column prop="owner" label="拥有方" fixed width="100">
+          <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row["owner"]| ownerChange }}</span>
+            </template>
         </el-table-column>
       </el-table>
     </div>
@@ -139,15 +163,15 @@ export default {
       historyForm: {
         customerId: "",//供应商编号
         certificateId: "",//供应商证件号码
-        corpName:"",//供应商名称
+        corpName: "",//供应商名称
 
-        interCustomerId:"",//核心企业证件号
+        interCustomerId: "",//核心企业证件号
         financeId: "",//融资意向申请编号
         owner: "",//拥有方
         tradeYearMonth: "",//
         startTime: "",
         endTime: "",
-        pageId:1
+        pageId: 1
       },
       tableData: [],
       pages: {
@@ -179,13 +203,13 @@ export default {
       //   'tradeyearmonth': this.historyForm.startTime + 'to' + this.historyForm.endTime,
       // }
       console.debug('liunan')
-      if(this.historyForm.startTime||this.historyForm.endTime){
+      if (this.historyForm.startTime || this.historyForm.endTime) {
         this.historyForm.tradeYearMonth = this.historyForm.startTime + 'to' + this.historyForm.endTime;
-      }else{
-        this.historyForm.tradeYearMonth= ""
+      } else {
+        this.historyForm.tradeYearMonth = ""
       }
       const data = this.historyForm;
-      data.pageId=1; //fix 有搜索结果点击页码时，按钮时pageId不变
+      data.pageId = 1; //fix 有搜索结果点击页码时，按钮时pageId不变
       this.getDecryptHistoricaltransaction(data);
     },
 
@@ -196,12 +220,12 @@ export default {
       this.historyForm = {
         customerId: "",//供应商编号
         certificateId: "",//供应商证件号码
-        corpName:"",//供应商名称
+        corpName: "",//供应商名称
 
-        interCustomerId:"",//核心企业证件号
+        interCustomerId: "",//核心企业证件号
         financeId: "",//融资意向申请编号
         owner: "",//拥有方
- 
+
         startTime: "",
         endTime: ""
       };
@@ -242,7 +266,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.historyForm.pageId = val;
-      const data = this.historyForm; 
+      const data = this.historyForm;
       this.getDecryptHistoricaltransaction(data)
     }
   },

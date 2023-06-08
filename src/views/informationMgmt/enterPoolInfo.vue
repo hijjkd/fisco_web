@@ -73,11 +73,19 @@
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" fixed align="center" width="75">
         </el-table-column>
-        <el-table-column fixed prop="owner" label="数据所属机构" width="120">
+        <el-table-column fixed prop="owner" label="拥有方" width="120">
+          <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row["owner"] | ownerChange }}</span>
+            </template>
         </el-table-column>
         <el-table-column prop="dateTimePoint" label="数据时点" fixed width="100">
         </el-table-column>
         <el-table-column prop="ccy" label="币种" fixed width="110">
+          <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row["ccy"] | moneyDecode }}</span>
+            </template>
         </el-table-column>
         <el-table-column prop="customerId" label="供应商编号">
         </el-table-column>
@@ -92,6 +100,10 @@
           <el-table-column prop="planInfos[0].planAmount" width="90" label="生产计划金额">
           </el-table-column>
           <el-table-column prop="planInfos[0].currency" label="币种">
+            <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row.planInfos[0].currency | moneyDecode }}</span>
+            </template>
           </el-table-column>
         </el-table-column>
         <el-table-column label="入库信息">
@@ -100,6 +112,10 @@
           <el-table-column prop="providerUsedInfos[0].usedAmount" width="90" label="结算金额">
           </el-table-column>
           <el-table-column prop="providerUsedInfos[0].currency" label="币种">
+            <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row.providerUsedInfos[0].currency | moneyDecode }}</span>
+            </template>
           </el-table-column>
         </el-table-column>
 
