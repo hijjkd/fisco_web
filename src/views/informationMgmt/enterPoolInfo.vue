@@ -31,8 +31,8 @@
               <el-select v-model="enterPoolForm.ccy" >
                 <el-option
                   v-for="ccy in enterPoolFormSelect.ccys"
-                  :key="ccy.value"
-                  :label="ccy.value"
+                  :key="ccy.lable"
+                  :label="ccy.lable"
                   :value="ccy.value">
                 </el-option>
               </el-select>
@@ -152,10 +152,17 @@ export default {
       },
       enterPoolFormSelect:{
         ccys:[
-          {lable:'人民币',value:"人民币"},
-          {lable:'美元',value:'美元'},
-          {lable:'欧元',value:'欧元'},
-          {lable:'英镑',value:'英镑'}],
+          {lable:'人民币',value:"10"},
+          {lable:'澳门元',value:'19'},
+          {lable:'港币',value:'21'},
+          {lable:'俄罗斯卢布',value:'27'},
+          {lable:'台湾元',value:'31'},
+          {lable:'美元',value:'32'},
+          {lable:'欧元',value:'35'},
+          {lable:'加拿大元',value:'39'},
+          {lable:'英镑',value:'43'},
+          {lable:'日元',value:'65'},
+          {lable:'新加坡元',value:'69'}],
         owners:[{lable:'保理',value:"1"},{lable:'银行',value:"0"}],
       },
       tableData: [],
