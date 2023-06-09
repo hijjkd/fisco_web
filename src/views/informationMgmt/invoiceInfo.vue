@@ -97,10 +97,18 @@
         <el-table-column prop="invoiceNotaxAmt" label="发票不含税金额（专票）" width="170">
         </el-table-column>
         <el-table-column prop="invoiceCcy" label="发票币种" width="120">
+          <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row.invoiceCcy | moneyDecode }}</span>
+            </template>
         </el-table-column>
         <el-table-column prop="sellerName" label="销方名称" width="120">
         </el-table-column>
         <el-table-column prop="invoiceType" label="发票类型" width="120">
+          <template slot-scope="scope">
+              <!-- 使用过滤器处理数字 -->
+              <span>{{ scope.row.invoiceType | invoiceChange }}</span>
+            </template>
         </el-table-column>
         <el-table-column prop="buyerName" label="购方名称" width="120">
         </el-table-column>
@@ -178,8 +186,8 @@ export default {
         pageId:1
       },
       invoiceCategory: [
-        { label: "普通发票", value: "普通发票" },
-        { label: "专业发票", value: "专业发票" }
+        { label: "普通发票", value: "02" },
+        { label: "专业发票", value: "01" }
       ],
       ownerCategory: [
         { label: "保理", value: "1" },
