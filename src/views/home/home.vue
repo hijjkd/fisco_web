@@ -619,6 +619,7 @@ removeDuplicate(arr) {
         method: "getBlockByNumber",
         params: [1, sum, true],
         id: 1,
+        txPageId:"1",blockPageId:"1"
       };
       return BlockByNumber(data);
     },
@@ -632,6 +633,7 @@ removeDuplicate(arr) {
         method: "getBlockByNumber",
         params: [1, sum, true],
         id: 1,
+         txPageId:"1",blockPageId:"1"
       };
       return BlockByNumber2(data);
     },
@@ -645,6 +647,7 @@ removeDuplicate(arr) {
         method: "getBlockByNumber",
         params: [1, sum, true],
         id: 1,
+         txPageId:"1",blockPageId:"1"
       };
       return BlockByNumber3(data);
     },
@@ -658,6 +661,7 @@ removeDuplicate(arr) {
         method: "getBlockByNumber",
         params: [1, sum, true],
         id: 1,
+         txPageId:"1",blockPageId:"1"
       };
       return BlockByNumber4(data);
     },
@@ -671,6 +675,7 @@ removeDuplicate(arr) {
         method: "getBlockByNumber",
         params: [1, sum, true],
         id: 1,
+         txPageId:"1",blockPageId:"1"
       };
       return BlockByNumber5(data);
     },
@@ -684,6 +689,7 @@ removeDuplicate(arr) {
         method: "getBlockByNumber",
         params: [1, sum, true],
         id: 1,
+         txPageId:"1",blockPageId:"1"
       };
       return BlockByNumber6(data);
     },

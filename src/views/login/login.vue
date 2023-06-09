@@ -175,7 +175,6 @@ export default {
   methods: {
     submit: function (formName) {
       this.$refs[formName].validate((valid) => {
-        console.log("liunan")
         if (valid) {
           this.logining = true;
           this.userLogin();

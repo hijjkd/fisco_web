@@ -21,81 +21,42 @@ permissions and * limitations under the License. */
           <span>{{ this.$t("text.tiao") }}</span> -->
         </div>
         <div class="search-part-right">
-          <el-input
-            :placeholder="$t('placeholder.globalSearch')"
-            v-model="searchKey.value"
-            class="input-with-select"
-            clearable
-            @clear="clearText"
-          >
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="search"
-            ></el-button>
+          <el-input :placeholder="$t('placeholder.globalSearch')" v-model="searchKey.value" class="input-with-select"
+            clearable @clear="clearText">
+            <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
           </el-input>
         </div>
       </div>
       <div class="search-table" v-autoTableHeight="160">
-        <el-table style="width: 100%" height="100%"
-          :data="
-            blockData.slice(
-              (currentPage - 1) * pageSize,
-              currentPage * pageSize
-            )
-          "
-          class="block-table-content"
-          v-loading="loading"
-          ref="refTable"
-        >
-          <el-table-column
-            prop="number"
-            :label="$t('BlockHeight')"
-            width="140"
-            align="center"
-          >
+        <el-table style="width: 100%" height="100%" :data="blockData.slice(
+          (currentPage - 1) * pageSize,
+          currentPage * pageSize
+        )
+          " class="block-table-content" v-loading="loading" ref="refTable">
+          <el-table-column prop="number" :label="$t('BlockHeight')" width="140" align="center">
             <template slot-scope="scope">
               <span @click="link(scope.row)" class="link">
-                {{ scope.row && scope.row["number"]|filterBlockHeight }}</span
-              >
+                {{ scope.row && scope.row["number"] | filterBlockHeight }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="blockHash"
-            :label="$t('TransactionCount')"
-            width="500"
-            align="center"
-          >
+          <el-table-column prop="blockHash" :label="$t('TransactionCount')" width="500" align="center">
             <template slot-scope="scope">
               <span class="" @click="link(scope.row)">{{
-                scope.row && scope.row["transactions"] |filterTransationcount
+                scope.row && scope.row["number"] | filterTransationcount
               }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="transaction"
-            :label="$t('ConsensusNodeHash')"
-            :show-overflow-tooltip="true"
-            align="center"
-          >
+          <el-table-column prop="transaction" :label="$t('ConsensusNodeHash')" :show-overflow-tooltip="true"
+            align="center">
             <template slot-scope="scope">
               <span class="" @click="link(scope.row)">
-                <i
-                  class="wbs-icon-copy font-12 copy-key"
-                  @click="link(scope.row)"
-                  :title="$t('text.copyHash')"
-                ></i>
-                {{ scope.row |filtersTransactionHash }}
+                <i class="wbs-icon-copy font-12 copy-key" @click="link(scope.row)" :title="$t('text.copyHash')"></i>
+                {{ scope.row | filtersTransactionHash }}
               </span>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="timestamp"
-            :label="$t('CreateTime')"
-            width="280"
-            :show-overflow-tooltip="true"
-            align="center"
-          >
+          <el-table-column prop="timestamp" :label="$t('CreateTime')" width="280" :show-overflow-tooltip="true"
+            align="center">
             <template slot-scope="scope">
               <span class="" @click="link(scope.row)">{{
                 scope.row && scope.row["timestamp"] | filtersTimeStap
@@ -116,7 +77,7 @@ permissions and * limitations under the License. */
           </div>
           <div class="nextPage" @click="next">下一页</div>
         </div> -->
-        <el-pagination
+        <!-- <el-pagination
           class="page"
           style="text-aglin: right"
           @size-change="handleSizeChange"
@@ -124,10 +85,16 @@ permissions and * limitations under the License. */
           :current-page="currentPage"
           :page-sizes="[10, 20, 30, 50]"
           :page-size="pageSize"
-          layout=" sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :total="total"
         >
+        </el-pagination> -->
+        <el-pagination align="center" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="pages.currentPage" :page-size="pages.pageSize" layout="total, prev, pager, next, jumper"
+          :total="pages.total">
         </el-pagination>
+
+
       </div>
     </div>
   </div>
@@ -135,7 +102,7 @@ permissions and * limitations under the License. */
 
 <script>
 import contentHead from "@/components/contentHead";
-import { BlockByNumber, BlockNumber } from "@/util/api";
+import { GetTransactionNum, BlockByNumber, BlockNumber } from "@/util/api";
 import router from "@/router";
 import errcode from "@/util/errcode";
 import { numberFormat } from "@/util/util";
@@ -159,6 +126,13 @@ export default {
         key: "",
         value: "",
       },
+      blockPageId: "1",
+      pages: {
+        pageSize: 10,
+        currentPage: 1,
+        total: 0
+      },
+      loading: true
     };
   },
   mounted: function () {
@@ -166,20 +140,34 @@ export default {
   },
 
   filters: {
-    filterBlockHeight :(value)=> {
-      return "Block"+parseInt(value,16);
+    filterBlockHeight: (value) => {
+      return "Block" + parseInt(value, 16);
     },
     // 格式化transationcount
-    filterTransationcount:(value)=> {
-      return value.length
+    filterTransationcount: (value) => {
+      
+      console.log(value);
+      const data = {
+        "jsonrpc": "2.0",
+        "method": "getTransactionNum",
+        "params": [1, value, true],
+        "id": 1
+      }
+      GetTransactionNum(data).then((res) => {
+        console.log(res)
+        return res.transactionNum
+      }, error => {
+        this.loading = false;
+      });
+
     },
     // 格式化copyHash
-    filtersTransactionHash:(item)=> {
+    filtersTransactionHash: (item) => {
 
-      return   item.sealerList[eval(item.sealer).toString(16)];
+      return item.sealerList[eval(item.sealer).toString(16)];
     },
     // 格式化日期
-    filtersTimeStap:(timestamp) => {
+    filtersTimeStap: (timestamp) => {
       const time = Number(timestamp);
       var date = new Date(time);
       var Y = date.getFullYear() + "-";
@@ -214,29 +202,46 @@ export default {
         method: "getBlockByNumber_all",
         params: [1, "0x6", true],
         id: 1,
+        txPageId: "1",
+        blockPageId: this.blockPageId
       };
+      this.loading = true;
       BlockByNumber(data).then((res) => {
+        this.loading = false;
+
         const arr = res.data.blocks;
-        for (var i = 0; i < arr.length; i++) {
-          if (arr) {
-
-
-
-
-          }
-        }
         seft.blockData = arr;
         seft.total = seft.blockData.length;
         seft.ticket = seft.blockData;
-        seft.blockData.reverse();
+        seft.pages.total = res.data.blockCount
+
+      }, error => {
+        this.loading = false;
       });
     },
+
+    handleData(data) {
+      if (!data) {
+        return;
+      }
+    },
+
+
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+
     handleSizeChange(val) {
-      this.pagesize = val;
+      console.log(`每页 ${val} 条`);
     },
+
     handleCurrentChange(val) {
-      this.currentPage = val;
+      console.log("liunan" + val)
+      this.blockPageId = val.toString();
+      this.getList();
     },
+
+    //跳转到交易详情页
     link: function (val) {
       router.push({
         path: "/transactionInfo",
@@ -247,29 +252,31 @@ export default {
     },
 
 
-      // 搜索框清除键逻辑
-      clearText(){
-            this.blockData = []
-        },
+    // 搜索框清除键逻辑
+    clearText() {
+      this.blockData = []
+    },
 
-        // 搜索按钮逻辑
-        search() {
-            let searchKey = this.searchKey.value
-            var arr = Number(searchKey).toString(16);
-            var sum = "0x" + arr;
-            var data = {
-                jsonrpc: "2.0",
-                method: "getBlockByNumber",
-                params: [1, sum, true],
-                id: 1,
-            };
-
-            // 网络请求搜索数据
-            BlockByNumber(data).then((res) => {
-              this.blockData = []
-              this.blockData = [res.data.result]
-            })
-        },
+    // 搜索按钮逻辑
+    search() {
+      let searchKey = this.searchKey.value
+      var arr = Number(searchKey).toString(16);
+      var sum = "0x" + arr;
+      var data = {
+        jsonrpc: "2.0",
+        method: "getBlockByNumber",
+        params: [1, sum, true],
+        id: 1,
+        txPageId: "1", blockPageId: "1"
+      };
+      this.loading = true;
+      // 网络请求搜索数据
+      BlockByNumber(data).then((res) => {
+        this.loading = false;
+        this.blockData = []
+        this.blockData = [res.data.result]
+      })
+    },
 
     // compare(property) {
     //   return function (a, b) {
@@ -374,34 +381,7 @@ export default {
     //     });
     //   });
   },
-  // handleSizeChange(size) {
-  //   //修改当前每页的数据行数
-  //   this.pagesize = size;
-  //   //数据重新分页
-  //   this.getPageInfo();
-  // },
-  // //调整当前的页码
-  // handleCurrentChange() {
-  //   if (this.currentPage < this.conpages) {
-  //     this.currentPage++;
-  //     this.getPageInfo(this.currentPage);
-  //   }
-  // },
 
-  // handleSizeChange: function (val) {
-  //   this.pageSize = val;
-  //   this.currentPage = 1;
-  //   this.getBlockList();
-  // },
-  // handleCurrentChange: function (val) {
-  //   if(this.currentPage<this.blockData.length){
-  //         this.currentPage++
-  //         this.getPageInfo(this.currentPage)
-  //       }
-  //   // console.log(val,'111')
-  //   // this.currentPage = val;
-  //   // this.getList();
-  // },
 
   // clickTable: function (row, column, $event) {
   //   console.log(row,'222')
@@ -419,40 +399,49 @@ export default {
   overflow: hidden;
   margin: 0;
 }
+
 .input-with-select {
   width: 610px;
 }
-.input-with-select >>> .el-input__inner {
+
+.input-with-select>>>.el-input__inner {
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   border: 1px solid #eaedf3;
   box-shadow: 0 3px 11px 0 rgba(159, 166, 189, 0.11);
 }
-.input-with-select >>> .el-input--suffix > .el-input__inner {
+
+.input-with-select>>>.el-input--suffix>.el-input__inner {
   box-shadow: none;
 }
-.input-with-select >>> .el-input-group__prepend {
+
+.input-with-select>>>.el-input-group__prepend {
   border-left-color: #fff;
 }
-.input-with-select >>> .el-input-group__append {
+
+.input-with-select>>>.el-input-group__append {
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   box-shadow: 0 3px 11px 0 rgba(159, 166, 189, 0.11);
 }
-.input-with-select >>> .el-button {
+
+.input-with-select>>>.el-button {
   border: 1px solid #20d4d9;
   border-radius: inherit;
   background: #20d4d9;
   color: #fff;
 }
+
 .block-table-content {
   width: 100%;
   padding-bottom: 16px;
   font-size: 12px;
 }
-.block-table-content >>> .el-table__row {
+
+.block-table-content>>>.el-table__row {
   cursor: pointer;
 }
+
 .nav {
   width: 550px;
   height: 30px;
@@ -460,6 +449,7 @@ export default {
   display: flex;
   align-items: center;
 }
+
 div[class$="Page"] {
   width: 80px;
   height: 25px;
@@ -469,6 +459,7 @@ div[class$="Page"] {
   background-color: coral;
   margin: 0 5px;
 }
+
 div[class="pages"] {
   width: 25px;
   height: 25px;
@@ -479,6 +470,7 @@ div[class="pages"] {
   text-align: center;
   line-height: 25px;
 }
+
 .active {
   width: 25px;
   height: 25px;
@@ -490,9 +482,11 @@ div[class="pages"] {
   line-height: 25px;
   color: #fff;
 }
+
 .nav div:hover {
   cursor: pointer;
 }
+
 .box {
   width: 550px;
   height: 200px;

@@ -202,7 +202,6 @@ export default {
       //   'owner': this.historyForm.owner,//拥有方
       //   'tradeyearmonth': this.historyForm.startTime + 'to' + this.historyForm.endTime,
       // }
-      console.debug('liunan')
       if (this.historyForm.startTime || this.historyForm.endTime) {
         this.historyForm.tradeYearMonth = this.historyForm.startTime + 'to' + this.historyForm.endTime;
       } else {
@@ -237,7 +236,6 @@ export default {
      * @param {*} data 
      */
     getDecryptHistoricaltransaction(data) {
-      console.debug('liunan')
       const that = this;
       this.loading = true;
       historicaltransaction(data).then(response => {

@@ -39,7 +39,6 @@ if (process.env.NODE_ENV === "development") {
 
 //login
 export function login(data, code, token) {
-  console.log("liunan" + `${HANDLE1}login`)
   return post({
     url: `${HANDLE1}login`,
     // url: `${url.ORG_LIST}/account/login`,
@@ -52,6 +51,19 @@ export function login(data, code, token) {
   })
 }
 
+
+
+//获取交易数量
+export function GetTransactionNum(data) {
+  return post({
+    url: `${HANDLE}`,
+    method: "post",
+    data: data,
+    headers: {
+      Authorization: localStorage.getItem("access_token") || "",
+    },
+  });
+}
 
 
 /**入池信息 */
