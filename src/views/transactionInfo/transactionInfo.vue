@@ -113,6 +113,7 @@ export default {
                 currentPage: 1,
                 total: 0
             },
+            txNumber:""
         };
     },
 
@@ -132,40 +133,35 @@ export default {
 
     },
     mounted: async function () {
-        //   if(this.$route.query &&this.$route.query.list&& this.$route.query.list.transactions.length){
-        //     this.transactionList = this.$route.query.list.transactions.map(it=>({
-        //     ...it,
-        //   }))
-        //   }
-        this.getBlockByNumber();
-
-
+          if(this.$route.query &&this.$route.query.number){
+            console.log(this.$route.query)
+            this.txNumber = this.$route.query.number.toString();
+            var data = {
+                jsonrpc: "2.0",
+                method: "getBlockByNumber",
+                params: [1, this.txNumber, true],
+                id: 1,
+                txPageId: this.txPageId
+            };
+        this.getBlockByNumber(data);
+          }
     },
 
     methods: {
 
 
         getBlockByNumber(data) {
-            console.log(data)
-            let searchKey = this.searchKey.value
-            var arr = Number(searchKey).toString(16);
-            var sum = "0x" + "19";
-            var data = {
-                jsonrpc: "2.0",
-                method: "getBlockByNumber",
-                params: [1, sum, true],
-                id: 1,
-                txPageId: this.txPageId
-            };
-            const that = this;
+            console.log(data); 
             this.loading = true;
-            // 网络请求搜索数据
-            BlockByNumber(data).then((res) => {
-                this.loading = false;
+           // 网络请求搜索数据
+           BlockByNumber(data).then((res) => {
+                this.loading=false
                 // TODO 校验搜索框输入逻辑
                 this.transactionList = []
                 this.transactionList = res.data.result.transactions
-                this.pages.total=res.data.totalcount
+                this.pages.total = res.data.totalcount
+            },error=>{
+                this.loading = false
             })
         },
 
@@ -187,7 +183,14 @@ export default {
 
         handleCurrentChange(val) {
             this.txPageId = val.toString();
-            this.getBlockByNumber();
+            var data = {
+                jsonrpc: "2.0",
+                method: "getBlockByNumber",
+                params: [1, this.txNumber, true],
+                id: 1,
+                txPageId: this.txPageId
+            };
+            this.getBlockByNumber(data);
         },
 
         // 搜索框清除键逻辑
@@ -209,15 +212,7 @@ export default {
                 txPageId: "1"
             };
 
-            // 网络请求搜索数据
-            BlockByNumber(data).then((res) => {
-                this.loading=false
-                // TODO 校验搜索框输入逻辑
-                this.transactionList = []
-                this.transactionList = res.data.result.transactions
-            },error=>{
-                this.loading = false
-            })
+            this.getBlockByNumber(data)
         },
 
         // 折叠面板每次只能展开一行

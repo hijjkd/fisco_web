@@ -42,7 +42,7 @@ permissions and * limitations under the License. */
           <el-table-column prop="blockHash" :label="$t('TransactionCount')" width="500" align="center">
             <template slot-scope="scope">
               <span class="" @click="link(scope.row)">{{
-                scope.row && scope.row["number"] | filterTransationcount
+                scope.row && scope.row["total"]
               }}</span>
             </template>
           </el-table-column>
@@ -64,37 +64,10 @@ permissions and * limitations under the License. */
             </template>
           </el-table-column>
         </el-table>
-        <!-- <div class="nav">
-          <div class="pravPage" @click="prav">上一页</div>
-          <div
-            class="pages"
-            v-for="(item, index) in conpages"
-            :key="index"
-            @click="getPageInfo(item)"
-            :class="item === currentPage ? 'active' : ''"
-          >
-            {{ item }}
-          </div>
-          <div class="nextPage" @click="next">下一页</div>
-        </div> -->
-        <!-- <el-pagination
-          class="page"
-          style="text-aglin: right"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[10, 20, 30, 50]"
-          :page-size="pageSize"
-          layout="total, prev, pager, next, jumper"
-          :total="total"
-        >
-        </el-pagination> -->
         <el-pagination align="center" @size-change="handleSizeChange" @current-change="handleCurrentChange"
           :current-page="pages.currentPage" :page-size="pages.pageSize" layout="total, prev, pager, next, jumper"
           :total="pages.total">
         </el-pagination>
-
-
       </div>
     </div>
   </div>
@@ -136,7 +109,15 @@ export default {
     };
   },
   mounted: function () {
-    this.getList();
+    var data = {
+      jsonrpc: "2.0",
+      method: "getBlockByNumber_all",
+      params: [1, "0x6", true],
+      id: 1,
+      txPageId: "1",
+      blockPageId: this.blockPageId
+    };
+    this.getList(data);
   },
 
   filters: {
@@ -145,7 +126,7 @@ export default {
     },
     // 格式化transationcount
     filterTransationcount: (value) => {
-      
+
       console.log(value);
       const data = {
         "jsonrpc": "2.0",
@@ -195,25 +176,41 @@ export default {
   },
 
   methods: {
-    getList() {
+    getList(data) {
       const seft = this;
-      var data = {
-        jsonrpc: "2.0",
-        method: "getBlockByNumber_all",
-        params: [1, "0x6", true],
-        id: 1,
-        txPageId: "1",
-        blockPageId: this.blockPageId
-      };
+
       this.loading = true;
       BlockByNumber(data).then((res) => {
-        this.loading = false;
+     
+
 
         const arr = res.data.blocks;
-        seft.blockData = arr;
-        seft.total = seft.blockData.length;
-        seft.ticket = seft.blockData;
-        seft.pages.total = res.data.blockCount
+
+
+        for (let i = 0; i < arr.length; i++) {
+
+          const data = {
+            "jsonrpc": "2.0",
+            "method": "getTransactionNum",
+            "params": [1, arr[i].number, true],
+            "id": 1
+          }
+          GetTransactionNum(data).then((res) => {
+            console.log(res)
+            arr[i].total = res.data.transactionNum
+
+            if (i == arr.length - 1) {
+              this.loading = false;
+              seft.blockData = arr;
+              seft.total = seft.blockData.length;
+              seft.ticket = seft.blockData;
+              seft.pages.total = res.data.blockCount
+            }
+          }, error => {
+            this.loading = false;
+          });
+        }
+
 
       }, error => {
         this.loading = false;
@@ -238,15 +235,24 @@ export default {
     handleCurrentChange(val) {
       console.log("liunan" + val)
       this.blockPageId = val.toString();
-      this.getList();
+      var data = {
+        jsonrpc: "2.0",
+        method: "getBlockByNumber_all",
+        params: [1, "0x6", true],
+        id: 1,
+        txPageId: "1",
+        blockPageId: this.blockPageId
+      };
+      this.getList(data);
     },
 
     //跳转到交易详情页
     link: function (val) {
+      console.log(val)
       router.push({
         path: "/transactionInfo",
         query: {
-          list: val,
+          number: val.number,
         },
       });
     },
