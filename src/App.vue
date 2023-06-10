@@ -16,7 +16,7 @@
 <template>
     <div id="app" class="web-font" v-loading='loading'>
         <!-- <div v-if="!show"  >页面加载中...</div> -->
-        <router-view v-if="show"></router-view>
+        <router-view ></router-view>
     </div>
 </template>
 
@@ -59,7 +59,7 @@ export default {
         };
     },
     mounted() {
-        this.getGroup();
+        // this.getGroup();
         // window.addEventListener('click',function(e){
         //     console.log(e)
         // })
@@ -69,6 +69,7 @@ export default {
             this.loading = true
             queryGroup()
                 .then(res => {
+                    console.log("liux")
                     this.loading = false
                     const { data, status, statusText } = res;
                     if (status === 200 && data && data.length) {

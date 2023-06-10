@@ -273,6 +273,7 @@ export default {
         exportJavaProject: "导出java项目",
     },
     text: {
+        reqOvertime: "请求超时",
         isRedeploy: '合约已部署 是否重新部署？',
         noContract: '请在左侧面板点击打开一个合约或新建一个合约',
         noStoreContract: '请在左侧面板点击打开一个合约',
