@@ -185,7 +185,7 @@ export default {
 
 
         const arr = res.data.blocks;
-
+        seft.pages.total = res.data.blockCount
 
         for (let i = 0; i < arr.length; i++) {
 
@@ -204,7 +204,7 @@ export default {
               seft.blockData = arr;
               seft.total = seft.blockData.length;
               seft.ticket = seft.blockData;
-              seft.pages.total = res.data.blockCount
+         
             }
           }, error => {
             this.loading = false;
