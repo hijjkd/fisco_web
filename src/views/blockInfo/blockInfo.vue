@@ -28,11 +28,8 @@ permissions and * limitations under the License. */
         </div>
       </div>
       <div class="search-table" v-autoTableHeight="160">
-        <el-table style="width: 100%" height="100%" :data="blockData.slice(
-          (currentPage - 1) * pageSize,
-          currentPage * pageSize
-        )
-          " class="block-table-content" v-loading="loading" ref="refTable">
+        <el-table style="width: 100%" height="100%" :data="blockData" class="block-table-content" v-loading="loading"
+          ref="refTable">
           <el-table-column prop="number" :label="$t('BlockHeight')" width="140" align="center">
             <template slot-scope="scope">
               <span @click="link(scope.row)" class="link">
@@ -176,46 +173,170 @@ export default {
   },
 
   methods: {
-    getList(data) {
-      const seft = this;
 
-      this.loading = true;
-      BlockByNumber(data).then((res) => {
-     
+    async getList(data) {
+      try {
+ 
+        const response = await this.getDataFromBlockByNumber(data);
+        const blockNumbers = response.blocks;
 
+        // 遍历数组，向GetTransactionNum接口请求数据，并更新数组的每个元素
+        for (let i = 0; i < blockNumbers.length; i++) {
+          const blockNumber = blockNumbers[i].number;
+          const transactionNumber = await this.getDataFromGetTransactionNum(blockNumber);
+          console.log("transactionNumber" + transactionNumber)
 
-        const arr = res.data.blocks;
-        seft.pages.total = res.data.blockCount
-
-        for (let i = 0; i < arr.length; i++) {
-
-          const data = {
-            "jsonrpc": "2.0",
-            "method": "getTransactionNum",
-            "params": [1, arr[i].number, true],
-            "id": 1
-          }
-          GetTransactionNum(data).then((res) => {
-            console.log(res)
-            arr[i].total = res.data.transactionNum
-
-            if (i == arr.length - 1) {
-              this.loading = false;
-              seft.blockData = arr;
-              seft.total = seft.blockData.length;
-              seft.ticket = seft.blockData;
-         
-            }
-          }, error => {
-            this.loading = false;
-          });
+          // 更新res数组的每个元素
+          blockNumbers[i].total = transactionNumber
         }
-
-
-      }, error => {
+        this.blockData = blockNumbers;
+        this.pages.total=response.blockCount;
         this.loading = false;
+
+
+      } catch (error) {
+        console.log('发生错误：', error);
+      }
+    },
+    getDataFromGetTransactionNum(blockNumber) {
+      return new Promise((resolve, reject) => {
+        const data = {
+          "jsonrpc": "2.0",
+          "method": "getTransactionNum",
+          "params": [1, blockNumber, true],
+          "id": 1
+        }
+        GetTransactionNum(data).then((res) => {
+          console.log( res.data.transactionNum)
+          
+          resolve(res.data.transactionNum);
+        }, error => {
+          this.loading = false;
+        });
       });
     },
+
+
+    getDataFromBlockByNumber(data) {
+      return new Promise((resolve, reject) => {
+        BlockByNumber(data).then((res) => {
+          const arr = res.data;
+
+          resolve(arr)
+
+        }, error => {
+          this.loading = false;
+        });
+      });
+    },
+
+
+
+
+
+    async getListForSearch(data) {
+      try {
+ 
+        const response = await this.getDataFromBlockByNumberForSearch(data);
+        const blockNumbers = response.result.transactions;
+
+        // 遍历数组，向GetTransactionNum接口请求数据，并更新数组的每个元素
+        for (let i = 0; i < blockNumbers.length; i++) {
+          const blockNumber = blockNumbers[i].blockNumber;
+          const transactionNumber = await this.getDataFromGetTransactionNumForSearch(blockNumber);
+          console.log("transactionNumber" + transactionNumber)
+
+          // 更新res数组的每个元素
+          blockNumbers[i].total = transactionNumber
+        }
+        this.blockData = blockNumbers;
+        this.pages.total=response.totalcount;
+        this.loading = false;
+
+
+      } catch (error) {
+        console.log('发生错误：', error);
+      }
+    },
+    getDataFromGetTransactionNumForSearch(blockNumber) {
+      return new Promise((resolve, reject) => {
+        const data = {
+          "jsonrpc": "2.0",
+          "method": "getTransactionNum",
+          "params": [1, blockNumber, true],
+          "id": 1
+        }
+        GetTransactionNum(data).then((res) => {
+          console.log( res.data.transactionNum)
+          
+          resolve(res.data.transactionNum);
+        }, error => {
+          this.loading = false;
+        });
+      });
+    },
+
+
+    getDataFromBlockByNumberForSearch(data) {
+      return new Promise((resolve, reject) => {
+        BlockByNumber(data).then((res) => {
+          const arr = res.data;
+
+          resolve(arr)
+
+        }, error => {
+          this.loading = false;
+        });
+      });
+    },
+
+
+
+
+
+
+
+
+    // getList(data) {
+    //   const seft = this;
+
+    //   this.loading = true;
+    //   BlockByNumber(data).then((res) => {
+
+
+
+    //     const arr = res.data.blocks;
+    //     seft.pages.total = res.data.blockCount
+
+    //     for (let i = 0; i < arr.length; i++) {
+
+    //       const data = {
+    //         "jsonrpc": "2.0",
+    //         "method": "getTransactionNum",
+    //         "params": [1, arr[i].number, true],
+    //         "id": 1
+    //       }
+    //       GetTransactionNum(data).then((res) => {
+    //         console.log(res)
+    //         arr[i].total = res.data.transactionNum
+
+    //         if (i == arr.length - 1) {
+    //           this.loading = false;
+    //           seft.blockData = arr;
+    //           seft.total = seft.blockData.length;
+    //           seft.ticket = seft.blockData;
+
+    //         }
+    //       }, error => {
+    //         this.loading = false;
+    //       });
+    //     }
+
+
+    //   }, error => {
+    //     this.loading = false;
+    //   });
+    // },
 
     handleData(data) {
       if (!data) {
@@ -233,9 +354,14 @@ export default {
     },
 
     handleCurrentChange(val) {
-      console.log("liunan" + val)
+
+      let searchKey = this.searchKey.value
+      var data ={}
+      if (searchKey ==  "") {
+        console.log("liunan" + val)
+
       this.blockPageId = val.toString();
-      var data = {
+      data = {
         jsonrpc: "2.0",
         method: "getBlockByNumber_all",
         params: [1, "0x6", true],
@@ -243,6 +369,30 @@ export default {
         txPageId: "1",
         blockPageId: this.blockPageId
       };
+      }else{
+        var arr = Number(searchKey).toString(16);
+      var sum = "0x" + arr;
+      data = {
+        jsonrpc: "2.0",
+        method: "getBlockByNumber",
+        params: [1, sum, true],
+        id: 1,
+        txPageId: "1", blockPageId: "1"
+      };
+  
+      }
+
+
+      // // 网络请求搜索数据
+      // BlockByNumber(data).then((res) => {
+      //   this.loading = false;
+      //   this.blockData = []
+      //   this.blockData = res.data.result.transactions
+      //   this.pages.total = res.data.totalcount
+      // })
+
+      this.loading = true;
+
       this.getList(data);
     },
 
@@ -265,23 +415,63 @@ export default {
 
     // 搜索按钮逻辑
     search() {
+      // let searchKey = this.searchKey.value
+      // var arr = Number(searchKey).toString(16);
+      // var sum = "0x" + arr;
+      // var data = {
+      //   jsonrpc: "2.0",
+      //   method: "getBlockByNumber",
+      //   params: [1, sum, true],
+      //   id: 1,
+      //   txPageId: "1", blockPageId: "1"
+      // };
+      // this.loading = true;
+      // // 网络请求搜索数据
+      // BlockByNumber(data).then((res) => {
+      //   this.loading = false;
+      //   this.blockData = []
+      //   this.blockData = res.data.result.transactions
+      //   this.pages.total = res.data.totalcount
+      // })
+
       let searchKey = this.searchKey.value
-      var arr = Number(searchKey).toString(16);
+      var data ={}
+      if (searchKey ==  "") {
+
+      data = {
+        jsonrpc: "2.0",
+        method: "getBlockByNumber_all",
+        params: [1, "0x6", true],
+        id: 1,
+        txPageId: "1",
+        blockPageId: this.blockPageId
+      };
+      }else{
+        var arr = Number(searchKey).toString(16);
       var sum = "0x" + arr;
-      var data = {
+      data = {
         jsonrpc: "2.0",
         method: "getBlockByNumber",
         params: [1, sum, true],
         id: 1,
         txPageId: "1", blockPageId: "1"
       };
+  
+      }
+
+
+      // // 网络请求搜索数据
+      // BlockByNumber(data).then((res) => {
+      //   this.loading = false;
+      //   this.blockData = []
+      //   this.blockData = res.data.result.transactions
+      //   this.pages.total = res.data.totalcount
+      // })
+
       this.loading = true;
-      // 网络请求搜索数据
-      BlockByNumber(data).then((res) => {
-        this.loading = false;
-        this.blockData = []
-        this.blockData = [res.data.result]
-      })
+
+      this.getListForSearch(data);
+
     },
 
     // compare(property) {

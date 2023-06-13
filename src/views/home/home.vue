@@ -781,6 +781,8 @@ removeDuplicate(arr) {
                 method: "getBlockByNumber",
                 params: [1, sum, true],
                 id: 1,
+                txPageId:"1",
+                blockPageId:"1"
             };
 
             // 网络请求搜索数据

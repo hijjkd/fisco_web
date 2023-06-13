@@ -30,8 +30,8 @@
                     </el-input>
                 </div>
             </div>
-            <div class="search-table">
-                <el-table :data="transactionList" class="block-table-content" :row-key="getRowKeys"
+            <div class="search-table" v-autoTableHeight="160" >
+                <el-table height="100%"  :data="transactionList" class="block-table-content" :row-key="getRowKeys"
                     :expand-row-keys="expands" v-loading="loading" @row-click="clickTable" ref="refTable"
                     @expand-change="expandSelect">
                     <el-table-column type="expand" align="center">
