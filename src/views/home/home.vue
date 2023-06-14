@@ -530,7 +530,7 @@ export default {
       router.push({
         path: "/transactionInfo",
         query: {
-          list: val,
+          number: val.number,
         },
       });
     },

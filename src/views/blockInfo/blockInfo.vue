@@ -398,7 +398,7 @@ export default {
 
     //跳转到交易详情页
     link: function (val) {
-      console.log(val)
+      console.log(val.number)
       router.push({
         path: "/transactionInfo",
         query: {

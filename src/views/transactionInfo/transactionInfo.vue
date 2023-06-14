@@ -133,8 +133,9 @@ export default {
 
     },
     mounted: async function () {
+        console.log("liunan")
           if(this.$route.query &&this.$route.query.number){
-            console.log(this.$route.query)
+            console.log(this.$route.query.number.toString())
             this.txNumber = this.$route.query.number.toString();
             var data = {
                 jsonrpc: "2.0",
