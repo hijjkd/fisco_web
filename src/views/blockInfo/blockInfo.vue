@@ -29,36 +29,25 @@ permissions and * limitations under the License. */
       </div>
       <div class="search-table" v-autoTableHeight="160">
         <el-table style="width: 100%" height="100%" :data="blockData" class="block-table-content" v-loading="loading"
-          ref="refTable">
+          ref="refTable" @row-click="link">
           <el-table-column prop="number" :label="$t('BlockHeight')" width="140" align="center">
-            <template slot-scope="scope">
-              <span @click="link(scope.row)" class="link">
-                {{ scope.row && scope.row["number"] | filterBlockHeight }}</span>
-            </template>
+            <template slot-scope="scope">{{ scope.row && scope.row["number"] | filterBlockHeight }}</template>
           </el-table-column>
-          <el-table-column prop="blockHash" :label="$t('TransactionCount')" width="500" align="center">
-            <template slot-scope="scope">
-              <span class="" @click="link(scope.row)">{{
-                scope.row && scope.row["total"]
-              }}</span>
-            </template>
+          <el-table-column prop="total" :label="$t('TransactionCount')" width="500" align="center">
+
           </el-table-column>
-          <el-table-column prop="transaction" :label="$t('ConsensusNodeHash')" :show-overflow-tooltip="true"
+          <el-table-column prop="sealer" :label="$t('ConsensusNodeHash')" :show-overflow-tooltip="true"
             align="center">
             <template slot-scope="scope">
-              <span class="" @click="link(scope.row)">
-                <i class="wbs-icon-copy font-12 copy-key" @click="link(scope.row)" :title="$t('text.copyHash')"></i>
+              <span>
+                <i class="wbs-icon-copy font-12 copy-key" :title="$t('text.copyHash')"></i>
                 {{ scope.row | filtersTransactionHash }}
               </span>
             </template>
           </el-table-column>
           <el-table-column prop="timestamp" :label="$t('CreateTime')" width="280" :show-overflow-tooltip="true"
             align="center">
-            <template slot-scope="scope">
-              <span class="" @click="link(scope.row)">{{
-                scope.row && scope.row["timestamp"] | filtersTimeStap
-              }}</span>
-            </template>
+            <template slot-scope="scope">{{scope.row && scope.row["timestamp"] | filtersTimeStap}}</template>
           </el-table-column>
         </el-table>
         <el-pagination align="center" @size-change="handleSizeChange" @current-change="handleCurrentChange"
@@ -88,7 +77,7 @@ export default {
       pageSize: 10,
       sum: 0,
       total: 0,
-      loading: false,
+      loading: true,
       numberFormat: numberFormat,
       ticket: [],
       conpages: "",
@@ -101,8 +90,7 @@ export default {
         pageSize: 10,
         currentPage: 1,
         total: 0
-      },
-      loading: true
+      }
     };
   },
   mounted: function () {
@@ -141,7 +129,6 @@ export default {
     },
     // 格式化copyHash
     filtersTransactionHash: (item) => {
-
       return item.sealerList[eval(item.sealer).toString(16)];
     },
     // 格式化日期
@@ -176,7 +163,7 @@ export default {
 
     async getList(data) {
       try {
- 
+
         const response = await this.getDataFromBlockByNumber(data);
         const blockNumbers = response.blocks;
 
@@ -184,7 +171,7 @@ export default {
         for (let i = 0; i < blockNumbers.length; i++) {
           const blockNumber = blockNumbers[i].number;
           const transactionNumber = await this.getDataFromGetTransactionNum(blockNumber);
-          console.log("transactionNumber" + transactionNumber)
+          //console.log("transactionNumber" + transactionNumber)
 
           // 更新res数组的每个元素
           blockNumbers[i].total = transactionNumber
@@ -208,7 +195,7 @@ export default {
         }
         GetTransactionNum(data).then((res) => {
           console.log( res.data.transactionNum)
-          
+
           resolve(res.data.transactionNum);
         }, error => {
           this.loading = false;
@@ -236,7 +223,7 @@ export default {
 
     async getListForSearch(data) {
       try {
- 
+
         const response = await this.getDataFromBlockByNumberForSearch(data);
         const blockNumbers = response.result.transactions;
 
@@ -268,7 +255,7 @@ export default {
         }
         GetTransactionNum(data).then((res) => {
           console.log( res.data.transactionNum)
-          
+
           resolve(res.data.transactionNum);
         }, error => {
           this.loading = false;
@@ -379,7 +366,7 @@ export default {
         id: 1,
         txPageId: "1", blockPageId: "1"
       };
-  
+
       }
 
 
@@ -397,12 +384,12 @@ export default {
     },
 
     //跳转到交易详情页
-    link: function (val) {
-      console.log(val.number)
+    link: function (row, column, event) {
+      this.loading = true;
       router.push({
         path: "/transactionInfo",
         query: {
-          number: val.number,
+          number: row.number,
         },
       });
     },
@@ -456,7 +443,7 @@ export default {
         id: 1,
         txPageId: "1", blockPageId: "1"
       };
-  
+
       }
 
 

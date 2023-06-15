@@ -32,7 +32,7 @@
             </div>
             <div class="search-table" v-autoTableHeight="160" >
                 <el-table height="100%"  :data="transactionList" class="block-table-content" :row-key="getRowKeys"
-                    :expand-row-keys="expands" v-loading="loading" @row-click="clickTable" ref="refTable"
+                    :expand-row-keys="expands" v-loading="loading"  ref="refTable"
                     @expand-change="expandSelect">
                     <el-table-column type="expand" align="center">
                         <template slot-scope="scope">
@@ -152,7 +152,7 @@ export default {
 
 
         getBlockByNumber(data) {
-            console.log(data); 
+            console.log(data);
             this.loading = true;
            // 网络请求搜索数据
            BlockByNumber(data).then((res) => {
