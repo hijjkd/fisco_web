@@ -176,6 +176,8 @@ export default {
           // 更新res数组的每个元素
           blockNumbers[i].total = transactionNumber
         }
+        console.log("页面直接加载或切换getList")
+        console.log(blockNumbers)
         this.blockData = blockNumbers;
         this.pages.total=response.blockCount;
         this.loading = false;
@@ -225,7 +227,7 @@ export default {
       try {
 
         const response = await this.getDataFromBlockByNumberForSearch(data);
-        const blockNumbers = response.result.transactions;
+        const blockNumbers = [response.result];
 
         // 遍历数组，向GetTransactionNum接口请求数据，并更新数组的每个元素
         for (let i = 0; i < blockNumbers.length; i++) {
@@ -236,7 +238,10 @@ export default {
           // 更新res数组的每个元素
           blockNumbers[i].total = transactionNumber
         }
-        this.blockData = blockNumbers;
+        this.blockData = [];
+
+        console.log(blockNumbers)
+        this.blockData =blockNumbers;
         this.pages.total=response.totalcount;
         this.loading = false;
 
@@ -456,7 +461,8 @@ export default {
       // })
 
       this.loading = true;
-
+      console.log("搜索时传的data")
+console.log(data)
       this.getListForSearch(data);
 
     },
