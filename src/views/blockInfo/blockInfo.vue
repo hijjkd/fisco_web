@@ -11,14 +11,14 @@ permissions and * limitations under the License. */
     <!-- <v-content-head
       :headTitle="$t('title.blockTitle')"
       :icon="true"
-      @changGroup="changGroup"
-    ></v-content-head> -->
+          @changGroup="changGroup"
+        ></v-content-head> -->
     <div class="module-wrapper">
       <div class="search-part">
         <div class="search-part-left-bg">
           <!-- <span>{{ this.$t("text.total") }}</span>
-          <span>{{ numberFormat(total, 0, ".", ",") }}</span>
-          <span>{{ this.$t("text.tiao") }}</span> -->
+              <span>{{ numberFormat(total, 0, ".", ",") }}</span>
+              <span>{{ this.$t("text.tiao") }}</span> -->
         </div>
         <div class="search-part-right">
           <el-input :placeholder="$t('placeholder.globalSearch')" v-model="searchKey.value" class="input-with-select"
@@ -36,8 +36,7 @@ permissions and * limitations under the License. */
           <el-table-column prop="total" :label="$t('TransactionCount')" width="500" align="center">
 
           </el-table-column>
-          <el-table-column prop="sealer" :label="$t('ConsensusNodeHash')" :show-overflow-tooltip="true"
-            align="center">
+          <el-table-column prop="sealer" :label="$t('ConsensusNodeHash')" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
               <span>
                 <i class="wbs-icon-copy font-12 copy-key" :title="$t('text.copyHash')"></i>
@@ -47,7 +46,7 @@ permissions and * limitations under the License. */
           </el-table-column>
           <el-table-column prop="timestamp" :label="$t('CreateTime')" width="280" :show-overflow-tooltip="true"
             align="center">
-            <template slot-scope="scope">{{scope.row && scope.row["timestamp"] | filtersTimeStap}}</template>
+            <template slot-scope="scope">{{ scope.row && scope.row["timestamp"] | filtersTimeStap }}</template>
           </el-table-column>
         </el-table>
         <el-pagination align="center" @size-change="handleSizeChange" @current-change="handleCurrentChange"
@@ -179,7 +178,7 @@ export default {
         console.log("页面直接加载或切换getList")
         console.log(blockNumbers)
         this.blockData = blockNumbers;
-        this.pages.total=response.blockCount;
+        this.pages.total = response.blockCount;
         this.loading = false;
 
 
@@ -188,6 +187,7 @@ export default {
       }
     },
     getDataFromGetTransactionNum(blockNumber) {
+      console.log(blockNumber)
       return new Promise((resolve, reject) => {
         const data = {
           "jsonrpc": "2.0",
@@ -196,8 +196,6 @@ export default {
           "id": 1
         }
         GetTransactionNum(data).then((res) => {
-          console.log( res.data.transactionNum)
-
           resolve(res.data.transactionNum);
         }, error => {
           this.loading = false;
@@ -225,13 +223,12 @@ export default {
 
     async getListForSearch(data) {
       try {
-
         const response = await this.getDataFromBlockByNumberForSearch(data);
         const blockNumbers = [response.result];
 
         // 遍历数组，向GetTransactionNum接口请求数据，并更新数组的每个元素
         for (let i = 0; i < blockNumbers.length; i++) {
-          const blockNumber = blockNumbers[i].blockNumber;
+          const blockNumber = blockNumbers[i].number;
           const transactionNumber = await this.getDataFromGetTransactionNumForSearch(blockNumber);
           console.log("transactionNumber" + transactionNumber)
 
@@ -241,8 +238,8 @@ export default {
         this.blockData = [];
 
         console.log(blockNumbers)
-        this.blockData =blockNumbers;
-        this.pages.total=response.totalcount;
+        this.blockData = blockNumbers;
+        this.pages.total = 1;//搜索区块时，只有一个
         this.loading = false;
 
 
@@ -259,7 +256,7 @@ export default {
           "id": 1
         }
         GetTransactionNum(data).then((res) => {
-          console.log( res.data.transactionNum)
+
 
           resolve(res.data.transactionNum);
         }, error => {
@@ -348,29 +345,29 @@ export default {
     handleCurrentChange(val) {
 
       let searchKey = this.searchKey.value
-      var data ={}
-      if (searchKey ==  "") {
-        console.log("liunan" + val)
+      var data = {}
+      if (searchKey == "") {
 
-      this.blockPageId = val.toString();
-      data = {
-        jsonrpc: "2.0",
-        method: "getBlockByNumber_all",
-        params: [1, "0x6", true],
-        id: 1,
-        txPageId: "1",
-        blockPageId: this.blockPageId
-      };
-      }else{
+
+        this.blockPageId = val.toString();
+        data = {
+          jsonrpc: "2.0",
+          method: "getBlockByNumber_all",
+          params: [1, "0x6", true],
+          id: 1,
+          txPageId: "1",
+          blockPageId: this.blockPageId
+        };
+      } else {
         var arr = Number(searchKey).toString(16);
-      var sum = "0x" + arr;
-      data = {
-        jsonrpc: "2.0",
-        method: "getBlockByNumber",
-        params: [1, sum, true],
-        id: 1,
-        txPageId: "1", blockPageId: "1"
-      };
+        var sum = "0x" + arr;
+        data = {
+          jsonrpc: "2.0",
+          method: "getBlockByNumber",
+          params: [1, sum, true],
+          id: 1,
+          txPageId: "1", blockPageId: "1"
+        };
 
       }
 
@@ -427,28 +424,32 @@ export default {
       // })
 
       let searchKey = this.searchKey.value
-      var data ={}
-      if (searchKey ==  "") {
+      var data = {}
+      if (searchKey == "") {
 
-      data = {
-        jsonrpc: "2.0",
-        method: "getBlockByNumber_all",
-        params: [1, "0x6", true],
-        id: 1,
-        txPageId: "1",
-        blockPageId: this.blockPageId
-      };
-      }else{
+        data = {
+          jsonrpc: "2.0",
+          method: "getBlockByNumber_all",
+          params: [1, "0x6", true],
+          id: 1,
+          txPageId: "1",
+          blockPageId: this.blockPageId
+        };
+
+        this.loading = true;
+        this.getList(data);
+      } else {
         var arr = Number(searchKey).toString(16);
-      var sum = "0x" + arr;
-      data = {
-        jsonrpc: "2.0",
-        method: "getBlockByNumber",
-        params: [1, sum, true],
-        id: 1,
-        txPageId: "1", blockPageId: "1"
-      };
-
+        var sum = "0x" + arr;
+        data = {
+          jsonrpc: "2.0",
+          method: "getBlockByNumber",
+          params: [1, sum, true],
+          id: 1,
+          txPageId: "1", blockPageId: "1"
+        };
+        this.loading = true;
+        this.getListForSearch(data);
       }
 
 
@@ -460,10 +461,7 @@ export default {
       //   this.pages.total = res.data.totalcount
       // })
 
-      this.loading = true;
-      console.log("搜索时传的data")
-console.log(data)
-      this.getListForSearch(data);
+
 
     },
 
