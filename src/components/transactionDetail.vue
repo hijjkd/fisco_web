@@ -35,7 +35,7 @@
           <span>input: </span>
           <div class="input-fix">
             <el-row>
-              <el-col
+              <!-- <el-col
                 :xs="24"
                 :sm="24"
                 :md="24"
@@ -44,7 +44,7 @@
               >
                 <span>function</span>
                 <span style="margin-left: 57px">{{ info.function }}</span>
-              </el-col>
+              </el-col> -->
               <el-col
                 :xs="24"
                 :sm="24"
@@ -59,7 +59,10 @@
             <el-col :xs="24" :sm="24" :md="24" :lg="24" style="display: flex">
               <span>data</span>
               <div style="width: 100%; margin: -12px 0 0 50px">
-                <el-table :data="tableData" style="width: 100%" >
+                <el-table :data="tableData" 
+                style="width: 90% ;" 
+                max-height="150"
+                @cell-dblclick="copyText" >
 
                   <el-table-column
                     v-for="(item,index) in datakey" :key="index"
@@ -180,6 +183,19 @@ export default {
     this.txInfo();
   },
   methods: {
+    /*
+    table 双击复制
+    */
+    copyText(row, column, cell, event) {
+      // 双击复制
+      let save = function (e) {
+        e.clipboardData.setData('text/plain', event.target.innerText);
+        e.preventDefault();  //阻止默认行为
+      }
+      document.addEventListener('copy', save);//添加一个copy事件
+      document.execCommand("copy");//执行copy方法
+      this.$message({ message: '复制成功', type: 'success' })//提示
+    },
     txInfo() {
 
       const arr = '0x' + this.transHash.blockNumber.toString(16)
