@@ -180,6 +180,7 @@ export default {
         total: 0
       },
       ownerCategory: [
+        { label: "交行", value: "2" },
         { label: "保理", value: "1" },
         { label: "银行", value: "0" }
       ],

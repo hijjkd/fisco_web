@@ -72,6 +72,8 @@ Vue.filter('ownerChange', (value) => {
       return "银行";
     case "11":
       return "保理";
+    case "22":
+      return "交行";
     default:
       return value
   }

@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === "development") {
   ASL_UNIVERSAL = "/request/asl/universal/";
 } else {
   //正式打包的服务器地址
-  var ip="http://101.43.251.145:8440/";
+  var ip="http://10.63.130.140:8440/";
   HANDLE1 =ip;
   HANDLE = ip+'asl/universal/handle/';
   ASL_UNIVERSAL=ip+"asl/universal/";

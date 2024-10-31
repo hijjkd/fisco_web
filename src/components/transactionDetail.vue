@@ -206,11 +206,12 @@ export default {
         id: 1,
       };
       txInfo(data).then((res) => {
-        this.info.methodId = res.data.transactions[0].method
+       // this.info.methodId = res.data.transactions[0].method
         this.dataList = res.data.transactions
         this.datakey = Object.keys(this.dataList[0])
         const arr = this.dataList.filter(map=>this.transHash.hash===map.txHash)
         this.tableData = arr;
+        this.info.methodId =arr[0].method
       });
     },
     // getTxInfo() {

@@ -163,7 +163,7 @@ export default {
           {lable:'英镑',value:'43'},
           {lable:'日元',value:'65'},
           {lable:'新加坡元',value:'69'}],
-        owners:[{lable:'保理',value:"1"},{lable:'银行',value:"0"}],
+        owners:[{lable:'交行',value:"2"},{lable:'保理',value:"1"},{lable:'银行',value:"0"}],
       },
       tableData: [],
       pages: {

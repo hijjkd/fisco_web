@@ -4,7 +4,7 @@
 
 const path = require('path')
 // var ip='http://127.0.0.1:8440/';
-var ip='http://101.43.251.145:8440/';
+var ip='http://101.200.47.4:8440/';
 module.exports = {
     dev: {
 
